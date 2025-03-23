@@ -1,0 +1,34 @@
+.contact-section {
+    background-image: url('https://cdn.myportfolio.com/3475acc0-c812-4ad6-864f-d17d159ddab9/07355e48-98af-4864-a010-e06ce24afd93_rw_1920.jpg?h=ae2f3da26624b2c7719d415a365fe788'); /* Replace with your actual image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full screen height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #f2f2f2; /* Light color for contrast */
+    font-family: 'Times New Roman', serif;
+}
+
+.contact-content {
+    max-width: 800px;
+    padding: 20px;
+}
+
+.contact-heading {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.contact-text {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.contact-note {
+    font-size: 18px;
+    font-style: italic;
+    margin-top: 20px;
+}

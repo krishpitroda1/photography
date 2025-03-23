@@ -1,0 +1,29 @@
+.faq-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 8%;
+  }
+  
+  .faq-container {
+    border-top: 1px solid #ddd;
+  }
+  
+  .faq-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .faq-question {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .faq-answer {
+    margin-top: 5px;
+    padding-left: 15px;
+    color: #555;
+  }
+  

@@ -1,0 +1,47 @@
+/* Base styles for larger screens */
+.splash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: white;
+    text-align: center;
+  }
+  
+  .splash-title {
+    font-size: 3.75rem; /* 60px */
+    font-weight: 200;
+    color: #1a202c;
+    letter-spacing: 0.1em;
+  }
+  
+  .splash-subtitle {
+    font-size: 3rem; /* 48px */
+    font-style: italic;
+    color: #4a5568;
+    margin-top: 1rem;
+    font-family: serif;
+  }
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 768px) { /* Tablets */
+    .splash-title {
+      font-size: 2.5rem; /* 40px */
+    }
+    
+    .splash-subtitle {
+      font-size: 2rem; /* 32px */
+    }
+  }
+  
+  @media (max-width: 480px) { /* Mobile devices */
+    .splash-title {
+      font-size: 2rem; /* 32px */
+    }
+    
+    .splash-subtitle {
+      font-size: 1.5rem; /* 24px */
+    }
+  }
+  
