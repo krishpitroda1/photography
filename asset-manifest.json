@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/photography/static/css/main.a19fcd67.css",
+    "main.js": "/photography/static/js/main.22bbef53.js",
+    "static/js/453.d798f18e.chunk.js": "/photography/static/js/453.d798f18e.chunk.js",
+    "static/media/pr6.jpg": "/photography/static/media/pr6.3c976d73142e62c3e926.jpg",
+    "static/media/j3.jpeg": "/photography/static/media/j3.e9d7b8d0045fe4df74a8.jpeg",
+    "static/media/j4.jpg": "/photography/static/media/j4.9d2cbb730e3cff79408a.jpg",
+    "static/media/j5.jpg": "/photography/static/media/j5.4444e3df80f527c68af0.jpg",
+    "static/media/p4.jpg": "/photography/static/media/p4.e68dfdf6daae34278d24.jpg",
+    "static/media/j2.jpg": "/photography/static/media/j2.8897f67dc8d188c37703.jpg",
+    "static/media/p3.jpg": "/photography/static/media/p3.9714ce3eae79d10feef8.jpg",
+    "static/media/5.jpg": "/photography/static/media/5.2c2039dc557ea94151a6.jpg",
+    "static/media/p1.jpg": "/photography/static/media/p1.2c2039dc557ea94151a6.jpg",
+    "static/media/p2.jpg": "/photography/static/media/p2.96f74c8cd6be3fed83ba.jpg",
+    "static/media/pr5.jpg": "/photography/static/media/pr5.23f264ceba80e82fa487.jpg",
+    "static/media/6.jpg": "/photography/static/media/6.9e0ad741d671ceabc175.jpg",
+    "static/media/pr3.jpg": "/photography/static/media/pr3.aae65d90b1c9212d8ef2.jpg",
+    "static/media/j1.jpg": "/photography/static/media/j1.115925fa4a09e9e2b702.jpg",
+    "static/media/j6.jpeg": "/photography/static/media/j6.302c2020976f31fe3914.jpeg",
+    "static/media/pr1.jpg": "/photography/static/media/pr1.11f27bec8cfa6b94544c.jpg",
+    "static/media/pr2.jpg": "/photography/static/media/pr2.4fe3dc1daa0c02bf9016.jpg",
+    "static/media/2.jpg": "/photography/static/media/2.3a0ead779dfdbfe2fb59.jpg",
+    "static/media/pr4.jpg": "/photography/static/media/pr4.53f41d09bd895409959a.jpg",
+    "static/media/3.jpg": "/photography/static/media/3.2303c2838d303ca05566.jpg",
+    "static/media/1.jpg": "/photography/static/media/1.f87c31bbe07419d941ef.jpg",
+    "static/media/4.jpg": "/photography/static/media/4.5365289e3a47365ea140.jpg",
+    "static/media/logo.png": "/photography/static/media/logo.f276c9e17211931d68a9.png",
+    "index.html": "/photography/index.html",
+    "main.a19fcd67.css.map": "/photography/static/css/main.a19fcd67.css.map",
+    "main.22bbef53.js.map": "/photography/static/js/main.22bbef53.js.map",
+    "453.d798f18e.chunk.js.map": "/photography/static/js/453.d798f18e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a19fcd67.css",
+    "static/js/main.22bbef53.js"
+  ]
+}
