@@ -376,7 +376,7 @@
 // -------------------------------------------------------------------------------------------------------------------------
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { TypeAnimation } from 'react-type-animation';
 import { FiInstagram, FiTwitter, FiFacebook } from "react-icons/fi";
 import { FaCamera, FaLightbulb, FaPalette } from "react-icons/fa";
@@ -386,26 +386,13 @@ import img3 from "../assets/3.jpg";
 import img4 from "../assets/4.jpg";
 import img5 from "../assets/5.jpg";
 import img6 from "../assets/6.jpg";
-import img7 from "../assets/2.jpg";
-
-// const images = [img1, img2, img3, img4, img5, img6];
+import img7 from "../assets/1.jpg";
 
 const images = [img1, img2, img3, img4, img5, img6, img7];
+
 const Home = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const { scrollYProgress } = useScroll();
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // For the interactive grid
-  // const gridItems = [
-  //   { id: 1, title: "Portraits", className: "col-span-2 row-span-2" },
-  //   { id: 2, title: "Landscapes", className: "col-span-1 row-span-1" },
-  //   { id: 3, title: "Weddings", className: "col-span-1 row-span-2" },
-  //   { id: 4, title: "Fashion", className: "col-span-1 row-span-1" },
-  //   { id: 5, title: "Street", className: "col-span-2 row-span-1" },
-  //   { id: 6, title: "Abstract", className: "col-span-1 row-span-1" },
-  // ];
   const gridItems = [
     { id: 1, title: "Portraits", className: "md:col-span-2 md:row-span-2 col-span-2 row-span-2" },
     { id: 2, title: "Landscapes", className: "col-span-2 md:col-span-1 row-span-1" },
@@ -413,27 +400,20 @@ const Home = () => {
     { id: 4, title: "Fashion", className: "col-span-2 md:col-span-1 row-span-1" },
     { id: 5, title: "Street", className: "col-span-2 md:col-span-2 row-span-1" },
     { id: 6, title: "Abstract", className: "col-span-2 md:col-span-1 row-span-1" },
-    { id: 7, title: "Nature", className: "col-span-2 md:col-span-1 row-span-1" }, // New item
+    { id: 7, title: "Nature", className: "col-span-2 md:col-span-1 row-span-1" },
   ];
 
   return (
-    <div className="bg-black text-white overflow-hidden relative">
-      {/* Parallax Hero Section */}
-      <motion.section 
-        className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden"
-        style={{ scale, y }}
-      >
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={img6} 
-            className="w-full h-full object-cover" 
-            alt="Background" 
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        </div>
+    <div className="text-white overflow-hidden relative" style={{
+      background: 'rgb(2,0,36)',
+      background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%)'
+    }}>
+      {/* Hero Section */}
+      <section className="relative h-screen flex flex-col items-center justify-center text-center">
+        <div className="absolute inset-0 z-0 bg-black/40"></div>
         
         <motion.div 
-          className="relative z-10 bg-black bg-opacity-60 p-10 rounded-lg max-w-4xl mx-4"
+          className="relative z-10 bg-black/70 p-10 rounded-lg max-w-4xl mx-4 backdrop-blur-sm"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1 }}
@@ -453,7 +433,7 @@ const Home = () => {
             className="text-5xl md:text-7xl font-extrabold text-white mb-4" 
             repeat={Infinity} 
           />
-          <p className="text-xl md:text-2xl mt-4 font-light">
+          <p className="text-xl md:text-2xl mt-4 font-light text-gray-300">
             Capturing moments that tell your unique story through light and perspective
           </p>
           
@@ -492,9 +472,9 @@ const Home = () => {
           <div className="text-white text-sm">Scroll to explore</div>
           <div className="w-1 h-10 bg-white mx-auto mt-2"></div>
         </motion.div>
-      </motion.section>
+      </section>
 
-      {/* About Section with Creative Layout */}
+      {/* About Section */}
       <section className="py-20 px-4 md:px-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -513,13 +493,13 @@ const Home = () => {
               with emotion and authenticity, blending technical precision with artistic intuition.
             </p>
             <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-800 to-blue-600 flex items-center justify-center">
                 <FaCamera className="text-white text-xl" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-teal-600 to-blue-400 flex items-center justify-center">
                 <FaLightbulb className="text-white text-xl" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
                 <FaPalette className="text-white text-xl" />
               </div>
             </div>
@@ -532,8 +512,8 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="absolute top-0 left-0 w-3/4 h-3/4 border-4 border-white rounded-lg z-10 transform rotate-3"></div>
-            <div className="absolute bottom-0 right-0 w-3/4 h-3/4 border-4 border-white rounded-lg transform -rotate-3"></div>
+            <div className="absolute top-0 left-0 w-3/4 h-3/4 border-2 border-blue-500/30 rounded-lg z-10 transform rotate-3"></div>
+            <div className="absolute bottom-0 right-0 w-3/4 h-3/4 border-2 border-cyan-500/30 rounded-lg transform -rotate-3"></div>
             <img 
               src={img3} 
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 object-cover rounded-lg shadow-2xl z-20" 
@@ -543,7 +523,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Interactive Grid Gallery */}
+      {/* Grid Gallery */}
       <section className="py-20 px-4 md:px-10 max-w-7xl mx-auto">
         <motion.h2 
           className="text-4xl font-bold mb-12 text-center"
@@ -555,74 +535,41 @@ const Home = () => {
           Explore My Specialties
         </motion.h2>
         
-        {/* <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 gap-4 min-h-[500px] md:h-[600px]">
-  {gridItems.map((item) => (
-    <motion.div
-      key={item.id}
-      className={`relative rounded-lg overflow-hidden ${item.className} group`}
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: item.id * 0.1 }}
-      viewport={{ once: true }}
-      onMouseEnter={() => setHoveredIndex(item.id)}
-      onMouseLeave={() => setHoveredIndex(null)}
-    >
-      {/* Container with aspect ratio */}
-      {/* <div className="w-full h-full relative">
-        <img 
-          src={images[item.id % images.length]} 
-          className="absolute w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-          alt={item.title} 
-          loading="lazy"
-        />
-        <div className={`absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 ${hoveredIndex === item.id ? 'opacity-100' : 'opacity-0'}`}>
-          <motion.h3 
-            className="text-xl md:text-2xl font-bold text-white text-center px-2"
-            initial={{ y: 20 }}
-            animate={{ y: hoveredIndex === item.id ? 0 : 20 }}
-          >
-            {item.title}
-          </motion.h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-4 gap-4 min-h-[500px] md:h-[700px] w-full">
+          {gridItems.map((item) => (
+            <motion.div
+              key={item.id}
+              className={`relative rounded-xl overflow-hidden ${item.className} group`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: item.id * 0.1 }}
+              viewport={{ once: true }}
+              onMouseEnter={() => setHoveredIndex(item.id)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <div className="w-full h-full relative">
+                <img 
+                  src={images[item.id % images.length]} 
+                  className="absolute w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                  alt={item.title} 
+                  loading="lazy"
+                />
+                <div className={`absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 ${hoveredIndex === item.id ? 'opacity-100' : 'opacity-0'}`}>
+                  <motion.h3 
+                    className="text-xl md:text-2xl font-bold text-white text-center px-2"
+                    initial={{ y: 20 }}
+                    animate={{ y: hoveredIndex === item.id ? 0 : 20 }}
+                  >
+                    {item.title}
+                  </motion.h3>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </div>
-    </motion.div>
-  ))}
-</div> */} 
-<div className="grid grid-cols-2 md:grid-cols-4 grid-rows-4 gap-4 min-h-[500px] md:h-[700px] w-full">
-  {gridItems.map((item) => (
-    <motion.div
-      key={item.id}
-      className={`relative rounded-lg overflow-hidden ${item.className} group`}
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: item.id * 0.1 }}
-      viewport={{ once: true }}
-      onMouseEnter={() => setHoveredIndex(item.id)}
-      onMouseLeave={() => setHoveredIndex(null)}
-    >
-      <div className="w-full h-full relative">
-        <img 
-          src={images[item.id % images.length]} 
-          className="absolute w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-          alt={item.title} 
-          loading="lazy"
-        />
-        <div className={`absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 ${hoveredIndex === item.id ? 'opacity-100' : 'opacity-0'}`}>
-          <motion.h3 
-            className="text-xl md:text-2xl font-bold text-white text-center px-2"
-            initial={{ y: 20 }}
-            animate={{ y: hoveredIndex === item.id ? 0 : 20 }}
-          >
-            {item.title}
-          </motion.h3>
-        </div>
-      </div>
-    </motion.div>
-  ))}
-</div>
       </section>
 
-      {/* Vertical Scrolling Gallery with Enhanced Effects */}
+      {/* Vertical Gallery */}
       <section className="flex flex-col items-center gap-20 py-20 relative">
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-20"></div>
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-20"></div>
@@ -658,8 +605,8 @@ const Home = () => {
         ))}
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 px-4 md:px-10 bg-gradient-to-r from-gray-900 to-black">
+      {/* Testimonials */}
+      <section className="py-20 px-4 md:px-10 bg-black/50">
         <motion.h2 
           className="text-4xl font-bold mb-16 text-center"
           initial={{ opacity: 0 }}
@@ -703,7 +650,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Creative Call to Action */}
+      {/* CTA */}
       <motion.section 
         className="py-32 text-center relative overflow-hidden"
         initial={{ opacity: 0 }}
@@ -711,14 +658,7 @@ const Home = () => {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={img5} 
-            className="w-full h-full object-cover" 
-            alt="Background" 
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-pink-900/80"></div>
-        </div>
+        <div className="absolute inset-0 z-0 bg-black/50"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-4">
           <motion.h3 
@@ -744,7 +684,7 @@ const Home = () => {
           >
             <Link to="/ContactUs">
               <motion.button 
-                className="px-8 py-4 bg-white text-purple-900 rounded-full font-bold text-lg shadow-lg hover:bg-gray-100"
+                className="px-8 py-4 bg-white text-black rounded-full font-bold text-lg shadow-lg hover:bg-gray-100"
                 whileHover={{ 
                   scale: 1.05,
                   boxShadow: "0px 10px 25px rgba(255, 255, 255, 0.3)"
@@ -758,8 +698,8 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* Footer with Social Links */}
-      <footer className="bg-black py-12 px-4 border-t border-gray-800">
+      {/* Footer */}
+      <footer className="bg-black/80 py-12 px-4 border-t border-gray-800">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h4 className="text-xl font-bold mb-4">Photography</h4>
