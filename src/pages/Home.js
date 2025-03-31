@@ -405,9 +405,11 @@ const Home = () => {
 
   return (
     <div className="text-white overflow-hidden relative" style={{
-      background: 'rgb(2,0,36)',
-      background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%)'
-    }}>
+      // background: 'rgb(2,0,36)',
+      // background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%)'
+     background: 'linear-gradient(90deg, rgba(255,255,255) 0%, rgba(255,255,255) 100%)'
+   
+   }}>
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center">
         <div className="absolute inset-0 z-0 bg-black/40"></div>
