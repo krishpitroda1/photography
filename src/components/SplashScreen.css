@@ -1,47 +1,35 @@
-/* Base styles for larger screens */
+/* SplashScreen.css */
 .splash-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: white;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+}
+
+.splash-logo {
+  max-width: 80%;
+  max-height: 80vh;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.splash-logo.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Optional: Add responsive sizing for the logo */
+@media (max-width: 768px) {
+  .splash-logo {
+    max-width: 90%;
   }
-  
-  .splash-title {
-    font-size: 3.75rem; /* 60px */
-    font-weight: 200;
-    color: #1a202c;
-    letter-spacing: 0.1em;
+}
+
+@media (max-width: 480px) {
+  .splash-logo {
+    max-width: 95%;
   }
-  
-  .splash-subtitle {
-    font-size: 3rem; /* 48px */
-    font-style: italic;
-    color: #4a5568;
-    margin-top: 1rem;
-    font-family: serif;
-  }
-  
-  /* Responsive styles for smaller screens */
-  @media (max-width: 768px) { /* Tablets */
-    .splash-title {
-      font-size: 2.5rem; /* 40px */
-    }
-    
-    .splash-subtitle {
-      font-size: 2rem; /* 32px */
-    }
-  }
-  
-  @media (max-width: 480px) { /* Mobile devices */
-    .splash-title {
-      font-size: 2rem; /* 32px */
-    }
-    
-    .splash-subtitle {
-      font-size: 1.5rem; /* 24px */
-    }
-  }
-  
+}
