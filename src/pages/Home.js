@@ -407,11 +407,75 @@ const Home = () => {
     <div className="text-white overflow-hidden relative" style={{
       // background: 'rgb(2,0,36)',
       // background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%)'
-     background: 'linear-gradient(90deg, rgba(255,255,255) 0%, rgba(255,255,255) 100%)'
+     background: 'linear-gradient(90deg, rgba(255,255,255) 0%, rgba() 100%)'
    
    }}>
       {/* Hero Section */}
-      <section 
+      {/* <section className="relative h-screen flex flex-col items-center justify-center text-center">
+        <div className="absolute inset-0 z-0 bg-black/40"></div>
+        
+        <motion.div 
+          className="relative z-10 bg-black/70 p-10 rounded-lg max-w-4xl mx-4 backdrop-blur-sm"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <TypeAnimation 
+            sequence={[
+              "Photographers", 
+              1000, 
+              "Visual Storytellers", 
+              1000, 
+              "Creators of Art", 
+              1000,
+              "Memory Capturers",
+              1000
+            ]} 
+            wrapper="h1" 
+            className="text-5xl md:text-7xl font-extrabold text-white mb-4" 
+            repeat={Infinity} 
+          />
+          <p className="text-xl md:text-2xl mt-4 font-light text-gray-300">
+            Capturing moments that tell your unique story through light and perspective
+          </p>
+          
+          <motion.div 
+            className="mt-8 flex gap-4 justify-center"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Link to="/portfolio">
+              <motion.button 
+                className="px-6 py-3 bg-transparent border-2 border-white text-white rounded-full font-medium hover:bg-white hover:text-black transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                View Portfolio
+              </motion.button>
+            </Link>
+            <Link to="/contact">
+              <motion.button 
+                className="px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-gray-200 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Book a Session
+              </motion.button>
+            </Link>
+          </motion.div>
+        </motion.div>
+        
+        <motion.div 
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <div className="text-white text-sm">Scroll to explore</div>
+          <div className="w-1 h-10 bg-white mx-auto mt-2"></div>
+        </motion.div>
+      </section> */}
+<section 
   className="relative h-screen flex flex-col items-center justify-center text-center"
   style={{
     backgroundImage: "url('https://krishpitroda1.github.io/photography/static/media/1.f87c31bbe07419d941ef.jpg')",
@@ -581,8 +645,8 @@ const Home = () => {
 
       {/* Vertical Gallery */}
       <section className="flex flex-col items-center gap-20 py-20 relative">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-20"></div>
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-20"></div>
+        <div className="absolute top-0 left-0 w-full h-32 "></div>
+        <div className="absolute bottom-0 left-0 w-full h-32 "></div>
         
         {images.map((img, index) => (
           <motion.div
