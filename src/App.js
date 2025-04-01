@@ -27,7 +27,7 @@ function App() {
           <Navbar/>
 
           {/* Main Content */}
-          <main className="p-6 text-center">
+          <main className="text-center">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/people" element={<People />} />
