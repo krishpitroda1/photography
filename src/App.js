@@ -7,7 +7,11 @@ import People from "./pages/People";
 import Jewellery from "./pages/Jewellery";
 import Products from "./pages/Products";
 import ContactUs from "./pages/ContactUs";
-
+import Portfolio from "./pages/Portfolio";
+import Clients from "./pages/Clients";
+import Lens from "./pages/Lens";
+import BTS  from "./pages/BTS";
+import Wedding from "./pages/Wedding";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -29,8 +33,15 @@ function App() {
           {/* Main Content */}
           <main className="text-center">
             <Routes>
+
               <Route path="/" element={<Home />} />
               <Route path="/people" element={<People />} />
+              <Route path="/Portfolio" element={<Portfolio />} />
+              <Route path="/lens" element={<Lens />} />
+              <Route path="/clients" element={<Clients />} />
+              <Route path="/bts" element={<BTS />} />
+              <Route path="/wedding" element={<Wedding />} />
+              
               <Route path="/jewellery" element={<Jewellery />} />
               <Route path="/products" element={<Products />} />
               <Route path="/ContactUs" element={<ContactUs />} />

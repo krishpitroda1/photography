@@ -53,38 +53,49 @@ const Home = () => {
     animate={{ scale: 1, opacity: 1 }}
     transition={{ duration: 1 }}
   >
+   
+    <p className="text-xl md:text-2xl mt-4 font-light text-gray-300">
+    Your Vision, My Lens-Creating Timeless
+    </p>
+    <p>
+
     <TypeAnimation 
       sequence={[
-        "Photographers", 
+        "Fashion Shots", 
         1000, 
-        "Visual Storytellers", 
+        "Catalogue Shots", 
         1000, 
-        "Creators of Art", 
+        "Jewellery Shots", 
         1000,
-        "Memory Capturers",
-        1000
+        "Product Shots",
+        1000,
+        "E-commerce Shots",
+        1000,
       ]} 
       wrapper="h1" 
       className="text-5xl md:text-7xl font-extrabold text-white mb-4" 
-      repeat={Infinity} 
-    />
-    <p className="text-xl md:text-2xl mt-4 font-light text-gray-300">
-      Capturing moments that tell your unique story through light and perspective
-    </p>
-    
+      repeat={Infinity}
+       
+    /> 
+    Transforming moments into memories with a creative touch.
+
+  
+   
+      </p>
     <motion.div 
       className="mt-8 flex gap-4 justify-center"
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.5 }}
     >
-      <Link to="/portfolio">
+      <Link to="/Portfolio">
         <motion.button 
           className="px-6 py-3 bg-transparent border-2 border-white text-white rounded-full font-medium hover:bg-white hover:text-black transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          View Portfolio
+          Schedule Now
+
         </motion.button>
       </Link>
       <Link to="/contact">
@@ -93,14 +104,16 @@ const Home = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Book a Session
+        Explore the Frames 
+
+
         </motion.button>
       </Link>
     </motion.div>
   </motion.div>
   
   <motion.div 
-    className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+    className="absolute bottom-10  justify-items-center items-center transform -translate-x-1/2"
     animate={{ y: [0, 10, 0] }}
     transition={{ repeat: Infinity, duration: 2 }}
   >
@@ -117,14 +130,11 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold mb-6">About My Vision</h2>
-            <p className="text-lg mb-6 text-gray-300">
-              Photography is not just about capturing what you see, but revealing what you feel. 
-              Every shot is a piece of a larger story, a moment frozen in time that speaks volumes.
-            </p>
-            <p className="text-lg mb-8 text-gray-300">
-              With over a decade of experience, I specialize in creating images that resonate 
-              with emotion and authenticity, blending technical precision with artistic intuition.
+            <h2 className="text-4xl text-black font-bold mb-6">About My Vision</h2>
+            <p className="text-lg mb-6 text-gray-700">
+            I’m Rushank Agrawal, a passionate photographer dedicated to transforming ideas into powerful visuals. With a keen eye for detail and a creative approach, I specialize in fashion, model, product, and candid photography—capturing moments that leave a lasting impression    </p>
+            <p className="text-lg mb-8 text-gray-700">
+            For me, photography is more than just clicking pictures; it’s about storytelling, emotion, and art. Every frame I capture is a blend of vision, aesthetics, and technical precision, ensuring that each shot speaks volumes.
             </p>
             <div className="flex gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-800 to-blue-600 flex items-center justify-center">
@@ -345,7 +355,7 @@ const Home = () => {
             <h5 className="font-bold mb-4">Quick Links</h5>
             <ul className="space-y-2">
               <li><Link to="/" className="text-gray-400 hover:text-white transition">Home</Link></li>
-              <li><Link to="/portfolio" className="text-gray-400 hover:text-white transition">Portfolio</Link></li>
+              <li><Link to="/Portfolio" className="text-gray-400 hover:text-white transition">Portfolio</Link></li>
               <li><Link to="/about" className="text-gray-400 hover:text-white transition">About</Link></li>
               <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact</Link></li>
             </ul>

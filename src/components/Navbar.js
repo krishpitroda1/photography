@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { FiInstagram, FiTwitter, FiFacebook } from "react-icons/fi";
 import img from "../assets/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,7 +19,26 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setMobileServicesOpen(false);
+  };
+
+  // Define your page routes mapping
+  const pageRoutes = {
+    'Portfolio': '/Portfolio',
+    'The Lens': '/Lens',
+    'Clients & Stories': '/Clients',
+    'Behind the Scene': '/BTS'
+  };
+
+  // Services dropdown items
+  const servicesItems = {
+    'Jewellery': '/jewellery',
+    'Products': '/products',
+    'Person': '/people',
+    'Wedding': '/wedding'
+  };
 
   return (
     <motion.nav 
@@ -43,44 +64,88 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <ul className="hidden md:flex items-center space-x-8">
-            {['People', 'Jewellery', 'Products', 'Contact'].map((item, index) => (
-              <motion.li 
-                key={index}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link 
-                  to={`/${item.toLowerCase()}`} 
-                  className={`text-white hover:text-amber-400 px-4 py-2 font-medium transition-colors ${scrolled ? 'border-b-2 border-transparent hover:border-amber-400' : 'border-b-2 border-transparent hover:border-amber-400'}`}
+          <div className="hidden md:flex items-center gap-1">
+            <ul className="flex items-center">
+              {Object.entries(pageRoutes).map(([item, route]) => (
+                <motion.li 
+                  key={item}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-3"
                 >
-                  {item}
-                </Link>
-              </motion.li>
-            ))}
-            
-            {/* Social Icons */}
-            <div className="flex space-x-4 ml-6">
-              {[<FiInstagram />, <FiTwitter />, <FiFacebook />].map((Icon, index) => (
-                <motion.a
-                  key={index}
-                  href="#"
-                  className={`w-10 h-10 rounded-full ${scrolled ? 'bg-neutral-800/70' : 'bg-neutral-900/50'} flex items-center justify-center text-white hover:text-amber-400 transition-all`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  {Icon}
-                </motion.a>
+                  <Link 
+                    to={route} 
+                    className={`text-white hover:text-amber-400 py-2 font-medium transition-colors ${scrolled ? 'border-b-2 border-transparent hover:border-amber-400' : 'border-b-2 border-transparent hover:border-amber-400'}`}
+                  >
+                    {item}
+                  </Link>
+                </motion.li>
               ))}
-            </div>
-          </ul>
+              
+              {/* Services Dropdown */}
+              <motion.li 
+                className="relative px-3"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <motion.div
+                  className="flex items-center text-white hover:text-amber-400 py-2 font-medium cursor-pointer transition-colors"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Services
+                  <FaChevronDown className={`ml-2 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+                </motion.div>
+                
+                <AnimatePresence>
+                  {servicesOpen && (
+                    <motion.ul 
+                      className="absolute top-full left-0 bg-neutral-900/90 backdrop-blur-md rounded-lg shadow-lg py-2 min-w-[200px] z-50"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {Object.entries(servicesItems).map(([service, route]) => (
+                        <motion.li 
+                          key={service}
+                          whileHover={{ x: 5 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Link 
+                            to={route} 
+                            className="block px-4 py-2 text-white hover:text-amber-400 hover:bg-neutral-800/50 transition-colors"
+                          >
+                            {service}
+                          </Link>
+                        </motion.li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </motion.li>
+            </ul>
+
+            {/* Book Your Shoot Button - Separated with margin */}
+            <motion.div
+              className="ml-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to="/book-your-shoot" 
+                className="px-6 py-2 bg-amber-400 text-neutral-900 font-medium rounded-full hover:bg-amber-500 transition-colors whitespace-nowrap"
+              >
+                Book Your Shoot
+              </Link>
+            </motion.div>
+          </div>
 
           {/* Mobile Menu Button */}
           <motion.button 
             className="md:hidden w-12 h-12 bg-neutral-900/50 rounded-md flex items-center justify-center text-white z-50"
             onClick={() => setMenuOpen(!menuOpen)}
             whileHover={{ scale: 1.05 }}
-            
             whileTap={{ scale: 0.9 }}
             aria-label="Toggle menu"
           >
@@ -89,7 +154,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu - Using AnimatePresence for smooth transitions */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div 
@@ -108,31 +173,93 @@ const Navbar = () => {
               <FaTimes />
             </button>
             
-            <div className="flex flex-col items-center space-y-8 h-full overflow-y-auto pb-12">
-              {['People', 'Jewellery', 'Products', 'Contact'].map((item, index) => (
+            <div className="flex flex-col items-center space-y-6 h-full overflow-y-auto pb-12">
+              {Object.entries(pageRoutes).map(([item, route], index) => (
                 <motion.div
-                  key={index}
+                  key={item}
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 20, opacity: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.3 }}
+                  className="w-full text-center"
                 >
                   <Link 
-                    to={`/${item.toLowerCase()}`} 
-                    className="text-2xl font-medium text-neutral-300 hover:text-amber-400 transition-colors"
+                    to={route} 
+                    className="text-2xl font-medium text-neutral-300 hover:text-amber-400 transition-colors block py-2"
                     onClick={closeMenu}
                   >
                     {item}
                   </Link>
                 </motion.div>
               ))}
+
+              {/* Mobile Services Dropdown */}
+              <motion.div
+                className="w-full text-center"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: Object.keys(pageRoutes).length * 0.1 }}
+              >
+                <div 
+                  className="flex items-center justify-center text-2xl font-medium text-neutral-300 hover:text-amber-400 cursor-pointer py-2"
+                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                >
+                  Services
+                  <FaChevronDown className={`ml-2 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                </div>
+                
+                <AnimatePresence>
+                  {mobileServicesOpen && (
+                    <motion.div
+                      className="mt-2 flex flex-col items-center space-y-2"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {Object.entries(servicesItems).map(([service, route]) => (
+                        <motion.div
+                          key={service}
+                          initial={{ x: -20 }}
+                          animate={{ x: 0 }}
+                          className="w-full"
+                        >
+                          <Link 
+                            to={route} 
+                            className="text-xl text-neutral-400 hover:text-amber-400 transition-colors block py-2"
+                            onClick={closeMenu}
+                          >
+                            {service}
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              {/* Mobile Book Your Shoot Button */}
+              <motion.div
+                className="w-full pt-2 text-center"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: (Object.keys(pageRoutes).length + 1) * 0.1 }}
+              >
+                <Link 
+                  to="/book-your-shoot" 
+                  className="inline-block px-8 py-3 bg-amber-400 text-neutral-900 font-medium rounded-full hover:bg-amber-500 transition-colors text-xl"
+                  onClick={closeMenu}
+                >
+                  Book Your Shoot
+                </Link>
+              </motion.div>
               
               {/* Mobile Social Icons */}
               <motion.div 
-                className="flex space-x-6 mt-12"
+                className="flex space-x-6 mt-8 justify-center"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: (Object.keys(pageRoutes).length + 2) * 0.1 }}
               >
                 {[<FiInstagram />, <FiTwitter />, <FiFacebook />].map((Icon, index) => (
                   <motion.a
@@ -141,7 +268,7 @@ const Navbar = () => {
                     className="w-14 h-14 rounded-full bg-neutral-900/50 flex items-center justify-center text-neutral-300 hover:text-amber-400"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
+                    transition={{ delay: (Object.keys(pageRoutes).length + 2 + index * 0.1) * 0.1 }}
                   >
                     {Icon}
                   </motion.a>
