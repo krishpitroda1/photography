@@ -343,7 +343,7 @@ const Home = () => {
       </motion.section>
 
       {/* Footer */}
-      <footer className="bg-black/80 py-12 px-4 border-t border-gray-800">
+      {/* <footer className="bg-black/80 py-12 px-4 border-t border-gray-800">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h4 className="text-xl font-bold mb-4">Photography</h4>
@@ -389,7 +389,7 @@ const Home = () => {
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
           <p>© {new Date().getFullYear()} Photography. All rights reserved.</p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };

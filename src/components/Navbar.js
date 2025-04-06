@@ -88,16 +88,18 @@ const Navbar = () => {
                 onMouseEnter={() => setServicesOpen(true)}
                 onMouseLeave={() => setServicesOpen(false)}
               >
+                <Link to="/Services">
                 <motion.div
                   className="flex items-center text-white hover:text-amber-400 py-2 font-medium cursor-pointer transition-colors"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                >
+                  >
                   Services
-                  <FaChevronDown className={`ml-2 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+                  {/* <FaChevronDown className={`ml-2 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} /> */}
                 </motion.div>
                 
-                <AnimatePresence>
+                  </Link>
+                {/* <AnimatePresence>
                   {servicesOpen && (
                     <motion.ul 
                       className="absolute top-full left-0 bg-neutral-900/90 backdrop-blur-md rounded-lg shadow-lg py-2 min-w-[200px] z-50"
@@ -122,7 +124,7 @@ const Navbar = () => {
                       ))}
                     </motion.ul>
                   )}
-                </AnimatePresence>
+                </AnimatePresence> */}
               </motion.li>
             </ul>
 

@@ -12,6 +12,8 @@ import Clients from "./pages/Clients";
 import Lens from "./pages/Lens";
 import BTS  from "./pages/BTS";
 import Wedding from "./pages/Wedding";
+import Services from "./components/Services";
+import Footer from "./components/Footer";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -41,12 +43,14 @@ function App() {
               <Route path="/clients" element={<Clients />} />
               <Route path="/bts" element={<BTS />} />
               <Route path="/wedding" element={<Wedding />} />
+              <Route path="/Services" element={<Services />} />
               
               <Route path="/jewellery" element={<Jewellery />} />
               <Route path="/products" element={<Products />} />
               <Route path="/ContactUs" element={<ContactUs />} />
             </Routes>
           </main>
+<Footer/>
         </>
       )}
     </div>
