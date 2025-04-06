@@ -1,18 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import img1 from "../assets/p1.jpg";
-import img2 from "../assets/p2.jpg";
-import img3 from "../assets/p3.jpg";
-import img4 from "../assets/p4.jpg";
 
-const photos = [
-  { src: img1, alt: 'Portrait 1', caption: 'Professional portrait photography session' },
-  { src: img2, alt: 'Portrait 2', caption: 'Candid moment captured beautifully' },
-  { src: img3, alt: 'Portrait 3', caption: 'Studio lighting portrait with dramatic shadows' },
-  { src: img4, alt: 'Portrait 4', caption: 'Outdoor natural light photography' },
-  { src: img1, alt: 'Portrait 5', caption: 'Black and white fine art portrait' },
-  { src: img2, alt: 'Portrait 6', caption: 'Environmental portrait with urban backdrop' },
-];
+// Import all images from the Fashion directory
+const importAll = (r) => r.keys().map(r);
+const images = importAll(require.context('../assets/Fashion', false, /\.(jpg|jpeg|png)$/));
+
+// Create photo objects with metadata
+const photos = images.map((src, index) => ({
+  src,
+  alt: `Fashion Portrait ${index + 1}`,
+  caption: getRandomCaption(index + 1)
+}));
+
+// Helper function to generate captions (replace with your actual captions)
+function getRandomCaption(index) {
+  const captions = [
+    'Professional fashion photography session',
+    'Editorial fashion shot with designer clothing',
+    'Runway-inspired fashion portrait',
+    'High-fashion look with dramatic makeup',
+    'Street style fashion photography',
+    'Luxury brand fashion campaign',
+    'Conceptual fashion art portrait',
+    'Seasonal fashion collection preview',
+    'Avant-garde fashion statement',
+    'Fashion model portfolio shot'
+  ];
+  return captions[index % captions.length] || `Fashion photography #${index}`;
+}
 
 function People() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -56,6 +71,15 @@ function People() {
     })
   };
 
+  // Pagination for grid gallery
+  const [currentPage, setCurrentPage] = useState(1);
+  const imagesPerPage = 9;
+  const totalPages = Math.ceil(photos.length / imagesPerPage);
+  const currentImages = photos.slice(
+    (currentPage - 1) * imagesPerPage,
+    currentPage * imagesPerPage
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 p-4 md:p-8">
       {/* Slideshow Section */}
@@ -66,7 +90,7 @@ function People() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          Featured Portraits
+          Fashion Portraits
         </motion.h1>
         
         <div className="relative w-full max-w-4xl h-96 md:h-[500px] mx-auto overflow-hidden">
@@ -107,13 +131,13 @@ function People() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          Portrait Collection
+          Fashion Collection ({photos.length} Photos)
         </motion.h1>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {photos.map((photo, index) => (
+          {currentImages.map((photo, index) => (
             <motion.div
-              key={index}
+              key={(currentPage - 1) * imagesPerPage + index}
               custom={index}
               initial="hidden"
               animate="visible"
@@ -142,6 +166,70 @@ function People() {
             </motion.div>
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-12">
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+              >
+                Previous
+              </button>
+              
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                // Show limited page numbers with ellipsis for many pages
+                let pageNum;
+                if (totalPages <= 5) {
+                  pageNum = i + 1;
+                } else if (currentPage <= 3) {
+                  pageNum = i + 1;
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i;
+                } else {
+                  pageNum = currentPage - 2 + i;
+                }
+
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`px-4 py-2 rounded-md ${
+                      currentPage === pageNum
+                        ? 'bg-gray-700 text-white'
+                        : 'bg-gray-200 hover:bg-gray-300'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+
+              {totalPages > 5 && currentPage < totalPages - 2 && (
+                <span className="px-2 py-2">...</span>
+              )}
+
+              {totalPages > 5 && currentPage < totalPages - 2 && (
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+                >
+                  {totalPages}
+                </button>
+              )}
+
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Lightbox */}
