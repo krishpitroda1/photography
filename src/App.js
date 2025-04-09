@@ -34,21 +34,19 @@ function App() {
 
           {/* Main Content */}
           <main className="text-center">
-            <Routes>
-
-              <Route path="/" element={<Home />} />
-              <Route path="/people" element={<People />} />
-              <Route path="/Portfolio" element={<Portfolio />} />
-              <Route path="/lens" element={<Lens />} />
-              <Route path="/clients" element={<Clients />} />
-              <Route path="/bts" element={<BTS />} />
-              <Route path="/wedding" element={<Wedding />} />
-              <Route path="/Services" element={<Services />} />
-              
-              <Route path="/jewellery" element={<Jewellery />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/ContactUs" element={<ContactUs />} />
-            </Routes>
+          <Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/people" element={<People />} />
+  <Route path="/portfolio" element={<Portfolio />} />  {/* Changed from /Portfolio */}
+  <Route path="/lens" element={<Lens />} />
+  <Route path="/clients" element={<Clients />} />
+  <Route path="/bts" element={<BTS />} />
+  <Route path="/wedding" element={<Wedding />} />
+  <Route path="/services" element={<Services />} />    {/* Changed from /Services */}
+  <Route path="/jewellery" element={<Jewellery />} />
+  <Route path="/products" element={<Products />} />
+  <Route path="/contact" element={<ContactUs />} />    {/* Changed from /ContactUs */}
+</Routes>
           </main>
 <Footer/>
         </>

@@ -20,7 +20,7 @@ function Footer() {
                   <h5 className="font-bold mb-4">Quick Links</h5>
                   <ul className="space-y-2">
                     <li><Link to="/" className="text-gray-400 hover:text-white transition">Home</Link></li>
-                    <li><Link to="/Portfolio" className="text-gray-400 hover:text-white transition">Portfolio</Link></li>
+                    <li><Link to="/portfolio" className="text-gray-400 hover:text-white transition">Portfolio</Link></li>
                     <li><Link to="/about" className="text-gray-400 hover:text-white transition">About</Link></li>
                     <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact</Link></li>
                   </ul>

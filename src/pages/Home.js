@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { TypeAnimation } from 'react-type-animation';
@@ -27,130 +27,159 @@ const Home = () => {
     { id: 7, title: "Nature", className: "col-span-2 md:col-span-1 row-span-1" },
   ];
 
+  // Lenix Smooth Scroll Implementation
+  useEffect(() => {
+    const handleClick = (e) => {
+      const anchor = e.target.closest('a[href^="#"]');
+      if (anchor) {
+        e.preventDefault();
+        const targetId = anchor.getAttribute('href');
+        
+        if (targetId === '#') return;
+        
+        try {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+
+            if (window.history.pushState) {
+              window.history.pushState(null, null, targetId);
+            } else {
+              window.location.hash = targetId;
+            }
+          }
+        } catch (error) {
+          console.error('Smooth scroll error:', error);
+          window.location.href = targetId;
+        }
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="text-white overflow-hidden relative w-100% " style={{
-      // background: 'rgb(2,0,36)',
-      // background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%)'
-     background: 'linear-gradient(90deg, rgba(255,255,255) 0%, rgba() 100%)'
-   
-   }}>
-      
-<section 
-  className="relative w-screen h-screen flex flex-col items-center justify-center text-center"
-  style={{
-    backgroundImage: "url('https://krishpitroda1.github.io/photography/static/media/1.f87c31bbe07419d941ef.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat"
-  }}
->
-  {/* Dark overlay to improve text readability */}
-  <div className="absolute inset-0 z-0 bg-black/40"></div>
-  
-  <motion.div 
-    className="relative z-10 bg-black/70 p-10 rounded-lg max-w-4xl mx-4 backdrop-blur-sm"
-    initial={{ scale: 0.9, opacity: 0 }}
-    animate={{ scale: 1, opacity: 1 }}
-    transition={{ duration: 1 }}
-  >
-   
-    <p className="text-xl md:text-2xl mt-4 font-light text-gray-300">
-    Your Vision, My Lens-Creating Timeless
-    </p>
-    <p>
-
-    <TypeAnimation 
-      sequence={[
-        "Fashion Shots", 
-        1000, 
-        "Catalogue Shots", 
-        1000, 
-        "Jewellery Shots", 
-        1000,
-        "Product Shots",
-        1000,
-        "E-commerce Shots",
-        1000,
-      ]} 
-      wrapper="h1" 
-      className="text-5xl md:text-7xl font-extrabold text-white mb-4" 
-      repeat={Infinity}
-       
-    /> 
-    Transforming moments into memories with a creative touch.
-
-  
-   
-      </p>
-    <motion.div 
-      className="mt-8 flex gap-4 justify-center"
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.5 }}
-    >
-      <Link to="/Portfolio">
-        <motion.button 
-          className="px-6 py-3 bg-transparent border-2 border-white text-white rounded-full font-medium hover:bg-white hover:text-black transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+    <div className="text-white overflow-hidden relative w-full bg-white">
+      {/* Hero Section */}
+      <section 
+        id="home"
+        className="relative w-full h-screen flex flex-col items-center justify-center text-center"
+        style={{
+          backgroundImage: "url('https://krishpitroda1.github.io/photography/static/media/1.f87c31bbe07419d941ef.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        <div className="absolute inset-0 z-0 bg-black/40"></div>
+        
+        <motion.div 
+          className="relative z-10 bg-black/70 p-6 md:p-10 rounded-lg max-w-4xl mx-4 backdrop-blur-sm"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1 }}
         >
-          Schedule Now
-
-        </motion.button>
-      </Link>
-      <Link to="/contact">
-        <motion.button 
-          className="px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-gray-200 transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          <p className="text-xl md:text-2xl mt-4 font-light text-gray-300">
+            Your Vision, My Lens-Creating Timeless
+          </p>
+          <TypeAnimation 
+            sequence={[
+              "Fashion Shots", 
+              1000, 
+              "Catalogue Shots", 
+              1000, 
+              "Jewellery Shots", 
+              1000,
+              "Product Shots",
+              1000,
+              "E-commerce Shots",
+              1000,
+            ]} 
+            wrapper="h1" 
+            className="text-3xl md:text-5xl lg:text-7xl font-extrabold text-white mb-4" 
+            repeat={Infinity}
+          /> 
+          <p className="text-gray-300 mb-6">Transforming moments into memories with a creative touch.</p>
+          <motion.div 
+            className="mt-8 flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Link to="/portfolio">
+              <motion.button 
+                className="px-4 py-2 sm:px-6 sm:py-3 bg-transparent border-2 border-white text-white rounded-full font-medium hover:bg-white hover:text-black transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Schedule Now
+              </motion.button>
+            </Link>
+            <Link to="/contact">
+              <motion.button 
+                className="px-4 py-2 sm:px-6 sm:py-3 bg-white text-black rounded-full font-medium hover:bg-gray-200 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Explore the Frames
+              </motion.button>
+            </Link>
+          </motion.div>
+        </motion.div>
+        
+        <motion.div 
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
         >
-        Explore the Frames 
+          <div className="text-white text-sm">Scroll to explore</div>
+          <div className="w-1 h-10 bg-white mx-auto mt-2"></div>
+        </motion.div>
+      </section>
 
-
-        </motion.button>
-      </Link>
-    </motion.div>
-  </motion.div>
-  
-  <motion.div 
-    className="absolute bottom-10  justify-items-center items-center transform -translate-x-1/2"
-    animate={{ y: [0, 10, 0] }}
-    transition={{ repeat: Infinity, duration: 2 }}
-  >
-    <div className="text-white text-sm">Scroll to explore</div>
-    <div className="w-1 h-10 bg-white mx-auto mt-2"></div>
-  </motion.div>
-</section>
       {/* About Section */}
-      <section className="py-20 px-4 md:px-10 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section id="about" className="py-12 md:py-20 px-4 md:px-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl text-black font-bold mb-6">About My Vision</h2>
-            <p className="text-lg mb-6 text-gray-700">
-            I’m Rushank Agrawal, a passionate photographer dedicated to transforming ideas into powerful visuals. With a keen eye for detail and a creative approach, I specialize in fashion, model, product, and candid photography—capturing moments that leave a lasting impression    </p>
-            <p className="text-lg mb-8 text-gray-700">
-            For me, photography is more than just clicking pictures; it’s about storytelling, emotion, and art. Every frame I capture is a blend of vision, aesthetics, and technical precision, ensuring that each shot speaks volumes.
+            <h2 className="text-3xl md:text-4xl text-black font-bold mb-6">About My Vision</h2>
+            <p className="text-base md:text-lg mb-6 text-gray-700">
+              I'm Rushank Agrawal, a passionate photographer dedicated to transforming ideas into powerful visuals.
+            </p>
+            <p className="text-base md:text-lg mb-8 text-gray-700">
+              For me, photography is more than just clicking pictures; it's about storytelling, emotion, and art.
             </p>
             <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-800 to-blue-600 flex items-center justify-center">
-                <FaCamera className="text-white text-xl" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-blue-800 to-blue-600 flex items-center justify-center">
+                <FaCamera className="text-white text-lg md:text-xl" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-teal-600 to-blue-400 flex items-center justify-center">
-                <FaLightbulb className="text-white text-xl" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-teal-600 to-blue-400 flex items-center justify-center">
+                <FaLightbulb className="text-white text-lg md:text-xl" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
-                <FaPalette className="text-white text-xl" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
+                <FaPalette className="text-white text-lg md:text-xl" />
               </div>
             </div>
           </motion.div>
           
           <motion.div
-            className="relative h-96"
+            className="relative h-64 md:h-96"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -162,15 +191,16 @@ const Home = () => {
               src={img3} 
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 object-cover rounded-lg shadow-2xl z-20" 
               alt="Photographer" 
+              loading="lazy"
             />
           </motion.div>
         </div>
       </section>
 
       {/* Grid Gallery */}
-      <section className="py-20 px-4 md:px-10 max-w-7xl mx-auto">
+      <section id="gallery" className="py-12 md:py-20 px-4 md:px-10 max-w-7xl mx-auto">
         <motion.h2 
-          className="text-4xl font-bold mb-12 text-center"
+          className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center text-black"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -179,11 +209,11 @@ const Home = () => {
           Explore My Specialties
         </motion.h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-4 gap-4 min-h-[500px] md:h-[700px] w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-4 gap-3 md:gap-4 min-h-[300px] md:h-[500px] lg:h-[700px] w-full">
           {gridItems.map((item) => (
             <motion.div
               key={item.id}
-              className={`relative rounded-xl overflow-hidden ${item.className} group`}
+              className={`relative rounded-lg md:rounded-xl overflow-hidden ${item.className} group`}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: item.id * 0.1 }}
@@ -194,13 +224,13 @@ const Home = () => {
               <div className="w-full h-full relative">
                 <img 
                   src={images[item.id % images.length]} 
-                  className="absolute w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                  className="absolute w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                   alt={item.title} 
                   loading="lazy"
                 />
                 <div className={`absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 ${hoveredIndex === item.id ? 'opacity-100' : 'opacity-0'}`}>
                   <motion.h3 
-                    className="text-xl md:text-2xl font-bold text-white text-center px-2"
+                    className="text-lg md:text-xl lg:text-2xl font-bold text-white text-center px-2"
                     initial={{ y: 20 }}
                     animate={{ y: hoveredIndex === item.id ? 0 : 20 }}
                   >
@@ -214,14 +244,14 @@ const Home = () => {
       </section>
 
       {/* Vertical Gallery */}
-      <section className="flex flex-col items-center gap-20 py-20 relative">
-        <div className="absolute top-0 left-0 w-full h-32 "></div>
-        <div className="absolute bottom-0 left-0 w-full h-32 "></div>
+      <section id="portfolio" className="flex flex-col items-center gap-8 md:gap-12 py-12 md:py-20 relative">
+        <div className="absolute top-0 left-0 w-full h-20 md:h-32 bg-gradient-to-b from-white to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-20 md:h-32 bg-gradient-to-t from-white to-transparent"></div>
         
         {images.map((img, index) => (
           <motion.div
             key={index}
-            className={`relative w-11/12 md:w-3/4 overflow-hidden rounded-2xl ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+            className={`relative w-11/12 md:w-3/4 overflow-hidden rounded-xl md:rounded-2xl ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
             initial={{ opacity: 0, y: 100, rotate: index % 2 === 0 ? 5 : -5 }}
             whileInView={{ opacity: 1, y: 0, rotate: index % 2 === 0 ? 1 : -1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -229,20 +259,20 @@ const Home = () => {
           >
             <motion.img
               src={img}
-              className="w-full h-auto rounded-2xl shadow-xl object-cover"
+              className="w-full h-auto max-h-[70vh] object-contain rounded-xl md:rounded-2xl shadow-lg"
               whileHover={{ 
-                scale: 1.03, 
-                boxShadow: "0px 25px 50px -12px rgba(255, 255, 255, 0.25)",
+                scale: 1.02,
                 transition: { duration: 0.3 }
               }}
+              loading="lazy"
             />
             <motion.div 
-              className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent"
+              className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black to-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h3 className="text-2xl font-bold text-white">Photo Title {index + 1}</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-white">Photo Title {index + 1}</h3>
               <p className="text-gray-300">Location, Year</p>
             </motion.div>
           </motion.div>
@@ -250,9 +280,9 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 px-4 md:px-10 bg-black/50">
+      <section id="testimonials" className="py-12 md:py-20 px-4 md:px-10 bg-black/50">
         <motion.h2 
-          className="text-4xl font-bold mb-16 text-center"
+          className="text-3xl md:text-4xl font-bold mb-8 md:mb-16 text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -261,30 +291,30 @@ const Home = () => {
           Client Experiences
         </motion.h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
           {[1, 2, 3].map((item) => (
             <motion.div
               key={item}
-              className="bg-gray-800 p-8 rounded-xl"
+              className="bg-gray-800 p-6 md:p-8 rounded-lg md:rounded-xl"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: item * 0.2 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+              whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
-                  <img src={images[item % images.length]} className="w-full h-full object-cover" alt="Client" />
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-700 mr-3 md:mr-4 overflow-hidden">
+                  <img src={images[item % images.length]} className="w-full h-full object-cover" alt="Client" loading="lazy" />
                 </div>
                 <div>
-                  <h4 className="font-bold">Client Name {item}</h4>
-                  <p className="text-gray-400 text-sm">Wedding Client</p>
+                  <h4 className="font-bold text-sm md:text-base">Client Name {item}</h4>
+                  <p className="text-gray-400 text-xs md:text-sm">Wedding Client</p>
                 </div>
               </div>
-              <p className="text-gray-300">
-                "Working with this photographer was an incredible experience. They captured our wedding day perfectly, with every image telling its own beautiful story."
+              <p className="text-gray-300 text-sm md:text-base">
+                "Working with this photographer was an incredible experience."
               </p>
-              <div className="mt-4 flex text-yellow-400">
+              <div className="mt-3 md:mt-4 flex text-yellow-400">
                 {[...Array(5)].map((_, i) => (
                   <span key={i}>★</span>
                 ))}
@@ -295,18 +325,12 @@ const Home = () => {
       </section>
 
       {/* CTA */}
-      <motion.section 
-        className="py-32 text-center relative overflow-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
+      <section id="contact" className="py-16 md:py-24 lg:py-32 text-center relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-black/50"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-4">
           <motion.h3 
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -314,7 +338,7 @@ const Home = () => {
             Ready to Create Something Extraordinary?
           </motion.h3>
           <motion.p 
-            className="text-xl mb-8"
+            className="text-lg md:text-xl mb-6 md:mb-8"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -326,9 +350,9 @@ const Home = () => {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <Link to="/ContactUs">
+            <Link to="/contact">
               <motion.button 
-                className="px-8 py-4 bg-white text-black rounded-full font-bold text-lg shadow-lg hover:bg-gray-100"
+                className="px-6 py-3 md:px-8 md:py-4 bg-white text-black rounded-full font-bold text-base md:text-lg shadow-lg hover:bg-gray-100"
                 whileHover={{ 
                   scale: 1.05,
                   boxShadow: "0px 10px 25px rgba(255, 255, 255, 0.3)"
@@ -340,56 +364,7 @@ const Home = () => {
             </Link>
           </motion.div>
         </div>
-      </motion.section>
-
-      {/* Footer */}
-      {/* <footer className="bg-black/80 py-12 px-4 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h4 className="text-xl font-bold mb-4">Photography</h4>
-            <p className="text-gray-400">
-              Capturing life's most precious moments with creativity and passion.
-            </p>
-          </div>
-          <div>
-            <h5 className="font-bold mb-4">Quick Links</h5>
-            <ul className="space-y-2">
-              <li><Link to="/" className="text-gray-400 hover:text-white transition">Home</Link></li>
-              <li><Link to="/Portfolio" className="text-gray-400 hover:text-white transition">Portfolio</Link></li>
-              <li><Link to="/about" className="text-gray-400 hover:text-white transition">About</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h5 className="font-bold mb-4">Services</h5>
-            <ul className="space-y-2">
-              <li className="text-gray-400">Wedding Photography</li>
-              <li className="text-gray-400">Portrait Sessions</li>
-              <li className="text-gray-400">Commercial Work</li>
-              <li className="text-gray-400">Photo Editing</li>
-            </ul>
-          </div>
-          <div>
-            <h5 className="font-bold mb-4">Connect</h5>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition text-xl">
-                <FiInstagram />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition text-xl">
-                <FiTwitter />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition text-xl">
-                <FiFacebook />
-              </a>
-            </div>
-            <p className="text-gray-400 mt-4">info@photography.com</p>
-            <p className="text-gray-400">+1 (555) 123-4567</p>
-          </div>
-        </div>
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-          <p>© {new Date().getFullYear()} Photography. All rights reserved.</p>
-        </div>
-      </footer> */}
+      </section>
     </div>
   );
 };

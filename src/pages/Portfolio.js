@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 // Import all your images
 import jewelry1 from "../assets/j1.jpg";
 import jewelry2 from "../assets/j2.jpg";
 import jewelry3 from "../assets/j3.jpg";
-
 import product1 from "../assets/pr1.jpg";
 import product2 from "../assets/pr2.jpg";
 import product3 from "../assets/pr4.jpg";
@@ -16,8 +15,8 @@ import fashion3 from "../assets/f22.jpg";
 import wildlife1 from "../assets/j1.jpg";
 import wildlife2 from "../assets/j2.jpg";
 
-// PhotoCard component moved outside the main component
-const PhotoCard = ({ photo, index, openLightbox }) => (
+// PhotoCard component
+const PhotoCard = React.memo(({ photo, index, openLightbox }) => (
   <motion.div
     custom={index}
     variants={{
@@ -38,6 +37,7 @@ const PhotoCard = ({ photo, index, openLightbox }) => (
       src={photo.src}
       alt={photo.alt}
       className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+      loading="lazy"
     />
     <div className="absolute inset-0 bg-black/30 flex items-end p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
       <div>
@@ -46,7 +46,7 @@ const PhotoCard = ({ photo, index, openLightbox }) => (
       </div>
     </div>
   </motion.div>
-);
+));
 
 const Portfolio = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -59,6 +59,7 @@ const Portfolio = () => {
   const productRef = useRef(null);
   const fashionRef = useRef(null);
   const wildlifeRef = useRef(null);
+  const galleryStartRef = useRef(null);
   
   // Check if sections are in view
   const isJewelryInView = useInView(jewelryRef, { once: false, margin: "-100px" });
@@ -84,7 +85,7 @@ const Portfolio = () => {
     jewelry: [
       { src: jewelry1, alt: 'Elegant Diamond Necklace', caption: 'Handcrafted diamond necklace with platinum setting' },
       { src: jewelry2, alt: 'Golden Pearl Earrings', caption: 'Exquisite golden pearls with diamond accents' },
-      { src: jewelry3, alt: 'Golden Pearl Earrings', caption: 'Exquisite golden pearls with diamond accents' }
+      { src: jewelry3, alt: 'Diamond Collection', caption: 'Premium diamond jewelry set' }
     ],
     product: [
       { src: product1, alt: 'Sapphire Ring Collection', caption: 'Royal blue sapphires in white gold bands' },
@@ -117,59 +118,69 @@ const Portfolio = () => {
       setCurrentSlide((prev) => (prev + 1) % featuredImages.length);
     }, 5000);
     return () => clearTimeout(timer);
-  }, [currentSlide, featuredImages.length]); // Added featuredImages.length to dependencies
+  }, [currentSlide, featuredImages.length]);
 
-  // Initialize Lenix smooth scroll
-  useEffect(() => {
-    const lenixSmoothScroll = () => {
-      const links = document.querySelectorAll('a[href^="#"]');
+  // Improved smooth scroll handler
+  const handleSmoothScroll = useCallback((e) => {
+    // Check if the click is from an anchor tag with hash link
+    if (e.target.tagName === 'A' && e.target.hash) {
+      e.preventDefault();
+      const targetId = e.target.hash.substring(1); // Remove #
+      const targetElement = document.getElementById(targetId);
       
-      links.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const targetId = this.getAttribute('href');
-          if (targetId === '#') return;
-          
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 80, // Adjust for header height
-              behavior: 'smooth'
-            });
-          }
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
         });
-      });
-    };
-
-    lenixSmoothScroll();
-    return () => {
-      const links = document.querySelectorAll('a[href^="#"]');
-      links.forEach(link => {
-        link.removeEventListener('click', lenixSmoothScroll);
-      });
-    };
+        
+        // Update URL without page reload
+        if (window.history.pushState) {
+          window.history.pushState(null, null, e.target.hash);
+        } else {
+          window.location.hash = e.target.hash;
+        }
+      }
+    }
   }, []);
 
-  const openLightbox = (photo) => {
+  // Initialize smooth scroll
+  useEffect(() => {
+    document.addEventListener('click', handleSmoothScroll);
+    return () => {
+      document.removeEventListener('click', handleSmoothScroll);
+    };
+  }, [handleSmoothScroll]);
+  // Scroll to top when component mounts
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+
+
+  const openLightbox = useCallback((photo) => {
     setCurrentImage(photo);
     setIsLightboxOpen(true);
     document.body.style.overflow = 'hidden';
-  };
+  }, []);
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setIsLightboxOpen(false);
     setCurrentImage(null);
     document.body.style.overflow = 'auto';
-  };
+  }, []);
 
-  const filterPhotos = (category) => {
+  const filterPhotos = useCallback((category) => {
     setActiveCategory(category);
-    window.scrollTo({
-      top: document.getElementById('gallery-start').offsetTop - 80,
-      behavior: 'smooth'
-    });
-  };
+    setTimeout(() => {
+      const galleryStart = document.getElementById('gallery-start');
+      if (galleryStart) {
+        window.scrollTo({
+          top: galleryStart.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    }, 50);
+  }, []);
 
   // Animation variants
   const slideVariants = {
@@ -218,6 +229,7 @@ const Portfolio = () => {
                 src={featuredImages[currentSlide].src}
                 alt={featuredImages[currentSlide].alt}
                 className="max-h-full max-w-full object-cover w-full h-full"
+                loading="eager"
               />
               <motion.div 
                 className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-black/80 to-transparent"
@@ -237,30 +249,27 @@ const Portfolio = () => {
       <div className="sticky top-0 z-10 bg-gray-100 shadow-md py-2 md:py-3 lg:py-4">
         <div className="container mx-auto px-2 sm:px-4">
           <div className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 md:pb-0 justify-start md:justify-center gap-2 md:gap-4 lg:gap-6 hide-scrollbar">
-            {['All','Jewelry', 'Product', 'Fashion', 'Wedding'].map((category) => {
-              const lowercaseCategory = category.toLowerCase().replace(/\s+/g, '-');
-              return (
-                <motion.button
-                  key={lowercaseCategory}
-                  onClick={() => filterPhotos(lowercaseCategory)}
-                  className={`flex-shrink-0 px-4 py-1.5 md:px-5 md:py-2 rounded-full capitalize font-medium text-xs sm:text-sm md:text-base snap-center ${
-                    activeCategory === lowercaseCategory 
-                      ? 'bg-gray-800 text-white shadow-inner' 
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {category}
-                </motion.button>
-              );
-            })}
+            {['all', 'jewelry', 'product', 'fashion', 'wildlife'].map((category) => (
+              <motion.button
+                key={category}
+                onClick={() => filterPhotos(category)}
+                className={`flex-shrink-0 px-4 py-1.5 md:px-5 md:py-2 rounded-full capitalize font-medium text-xs sm:text-sm md:text-base snap-center ${
+                  activeCategory === category 
+                    ? 'bg-gray-800 text-white shadow-inner' 
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </motion.button>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div id="gallery-start" className="container mx-auto px-4 py-8 md:py-12 space-y-12 md:space-y-20">
+      <div id="gallery-start" ref={galleryStartRef} className="container mx-auto px-4 py-8 md:py-12 space-y-12 md:space-y-20">
         {activeCategory === 'all' ? (
           <>
             <motion.section
@@ -275,7 +284,7 @@ const Portfolio = () => {
               </motion.h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {categories.jewelry.map((photo, index) => (
-                  <PhotoCard key={index} photo={photo} index={index} openLightbox={openLightbox} />
+                  <PhotoCard key={`jewelry-${index}`} photo={photo} index={index} openLightbox={openLightbox} />
                 ))}
               </div>
             </motion.section>
@@ -292,7 +301,7 @@ const Portfolio = () => {
               </motion.h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {categories.product.map((photo, index) => (
-                  <PhotoCard key={index} photo={photo} index={index} openLightbox={openLightbox} />
+                  <PhotoCard key={`product-${index}`} photo={photo} index={index} openLightbox={openLightbox} />
                 ))}
               </div>
             </motion.section>
@@ -309,7 +318,7 @@ const Portfolio = () => {
               </motion.h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {categories.fashion.map((photo, index) => (
-                  <PhotoCard key={index} photo={photo} index={index} openLightbox={openLightbox} />
+                  <PhotoCard key={`fashion-${index}`} photo={photo} index={index} openLightbox={openLightbox} />
                 ))}
               </div>
             </motion.section>
@@ -326,7 +335,7 @@ const Portfolio = () => {
               </motion.h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 {categories.wildlife.map((photo, index) => (
-                  <PhotoCard key={index} photo={photo} index={index} openLightbox={openLightbox} />
+                  <PhotoCard key={`wildlife-${index}`} photo={photo} index={index} openLightbox={openLightbox} />
                 ))}
               </div>
             </motion.section>
@@ -345,12 +354,11 @@ const Portfolio = () => {
               `grid gap-4 md:gap-6 ${
                 activeCategory === 'product' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' :
                 activeCategory === 'fashion' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
-                activeCategory === 'wildlife' ? 'grid-cols-1 sm:grid-cols-2' :
-                'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                'grid-cols-1 sm:grid-cols-2'
               }`
             }>
               {categories[activeCategory]?.map((photo, index) => (
-                <PhotoCard key={index} photo={photo} index={index} openLightbox={openLightbox} />
+                <PhotoCard key={`${activeCategory}-${index}`} photo={photo} index={index} openLightbox={openLightbox} />
               ))}
             </div>
           </motion.section>
@@ -394,26 +402,6 @@ const Portfolio = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Global styles */}
-      <style jsx global>{`
-        html {
-          scroll-behavior: smooth;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .snap-x {
-          scroll-snap-type: x mandatory;
-        }
-        .snap-center {
-          scroll-snap-align: center;
-        }
-      `}</style>
     </div>
   );
 };

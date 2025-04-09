@@ -26,10 +26,10 @@ const Navbar = () => {
 
   // Define your page routes mapping
   const pageRoutes = {
-    'Portfolio': '/Portfolio',
-    'The Lens': '/Lens',
-    'Clients & Stories': '/Clients',
-    'Behind the Scene': '/BTS'
+    'Portfolio': '/portfolio',
+    'The Lens': '/lens',
+    'Clients & Stories': '/clients',
+    'Behind the Scene': '/bts'
   };
 
   // Services dropdown items
