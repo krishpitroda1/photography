@@ -13,8 +13,9 @@ import product4 from "../assets/pr5.jpg";
 import fashion1 from "../assets/f18.jpg";
 import fashion2 from "../assets/f34.jpg";
 import fashion3 from "../assets/f22.jpg";
-import wildlife1 from "../assets/j1.jpg";
-import wildlife2 from "../assets/j2.jpg";
+import wildlife1 from "../assets/w1.webp";
+import wildlife2 from "../assets/w2.webp";
+import wildlife3 from "../assets/w4.webp";
 
 // Image configuration
 const IMAGES = {
@@ -37,6 +38,8 @@ const IMAGES = {
   wildlife: [
     { src: wildlife1, alt: 'Wildlife Photography', caption: 'Nature in its purest form' },
     { src: wildlife2, alt: 'Wildlife Closeup', caption: 'Detailed animal portrait' }
+    ,{ src: wildlife3, alt: 'Wildlife Closeup', caption: 'Detailed animal portrait' }
+  
   ]
 };
 
@@ -297,7 +300,7 @@ const Portfolio = () => {
         >
           <div className="flex justify-between items-center">
             <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
-              Fashion Photography1
+              Fashion Photography
             </motion.h2>
             <Link to="/fashion">
               <motion.button

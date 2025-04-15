@@ -6,7 +6,7 @@ const importAll = (r) => r.keys().map(r);
 const imageContext = require.context('../assets/Fashion/', false, /\.webp$/);
 const imageFiles = importAll(imageContext);
 
-// Create photo objects with metadata (you can modify this as needed)
+// Create photo objects with metadata
 const photos = imageFiles.map((src, index) => ({
   src,
   alt: `Fashion Image ${index + 1}`,
@@ -15,7 +15,7 @@ const photos = imageFiles.map((src, index) => ({
 
 const Fashion = () => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto-advance slideshow
@@ -28,14 +28,25 @@ const Fashion = () => {
     return () => clearTimeout(timer);
   }, [currentSlide]);
 
-  const openLightbox = (photo) => {
-    setCurrentImage(photo);
+  const openLightbox = (index) => {
+    setCurrentImageIndex(index);
     setIsLightboxOpen(true);
   };
 
   const closeLightbox = () => {
     setIsLightboxOpen(false);
-    setCurrentImage(null);
+  };
+
+  const goToPrevious = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? photos.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentImageIndex((prevIndex) => 
+      (prevIndex + 1) % photos.length
+    );
   };
 
   // Animation variants
@@ -54,6 +65,21 @@ const Fashion = () => {
         delay: i * 0.1,
         duration: 0.8
       }
+    })
+  };
+
+  const lightboxVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      x: direction < 0 ? 100 : -100,
+      opacity: 0
     })
   };
 
@@ -122,7 +148,7 @@ const Fashion = () => {
               animate="visible"
               variants={itemVariants}
               className="group relative cursor-pointer"
-              onClick={() => openLightbox(photo)}
+              onClick={() => openLightbox(index)}
             >
               <div className="relative overflow-hidden rounded-xl shadow-lg h-80">
                 <motion.img
@@ -147,7 +173,7 @@ const Fashion = () => {
         </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox with navigation */}
       <AnimatePresence>
         {isLightboxOpen && (
           <motion.div
@@ -155,19 +181,42 @@ const Fashion = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={closeLightbox}
           >
+            <motion.button
+              onClick={goToPrevious}
+              className="absolute left-4 md:left-8 text-white text-4xl p-2 bg-black/50 rounded-full hover:bg-black/80 transition-colors z-10"
+              whileHover={{ scale: 1.1 }}
+            >
+              &larr;
+            </motion.button>
+            
             <motion.div 
               className="relative max-w-6xl w-full"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={currentImage?.src}
-                alt={currentImage?.alt}
-                className="max-w-full max-h-[90vh] mx-auto object-contain rounded-lg"
-              />
+              <AnimatePresence custom={1} mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  custom={1}
+                  variants={lightboxVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col items-center"
+                >
+                  <img
+                    src={photos[currentImageIndex]?.src}
+                    alt={photos[currentImageIndex]?.alt}
+                    className="max-w-full max-h-[80vh] mx-auto object-contain rounded-lg"
+                  />
+                  <div className="w-full mt-4 bg-black/50 text-white p-4 rounded-lg">
+                    <h3 className="text-xl font-bold">{photos[currentImageIndex]?.alt}</h3>
+                    <p>{photos[currentImageIndex]?.caption}</p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              
               <motion.button
                 onClick={closeLightbox}
                 className="absolute top-4 right-4 text-white text-3xl p-2 bg-black/50 rounded-full hover:bg-black/80 transition-colors"
@@ -175,11 +224,15 @@ const Fashion = () => {
               >
                 &times;
               </motion.button>
-              <div className="absolute bottom-4 left-4 right-4 bg-black/50 text-white p-4 rounded-lg">
-                <h3 className="text-xl font-bold">{currentImage?.alt}</h3>
-                <p>{currentImage?.caption}</p>
-              </div>
             </motion.div>
+            
+            <motion.button
+              onClick={goToNext}
+              className="absolute right-4 md:right-8 text-white text-4xl p-2 bg-black/50 rounded-full hover:bg-black/80 transition-colors z-10"
+              whileHover={{ scale: 1.1 }}
+            >
+              &rarr;
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
