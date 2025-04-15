@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import img1 from "../assets/pr1.jpg";
-import img2 from "../assets/pr2.jpg";
-import img3 from "../assets/pr3.jpg";
-import img4 from "../assets/pr4.jpg";
-import img5 from "../assets/Products/pr1.jpg";
-import img6 from "../assets/Products/pr2.jpg";
 
-const photos = [
-  { src: img1, alt: 'Luxury Watch', caption: 'Premium chronograph with leather strap' },
-  { src: img2, alt: 'Wireless Headphones', caption: 'Noise-cancelling over-ear headphones' },
-  { src: img3, alt: 'Designer Handbag', caption: 'Handcrafted leather tote bag' },
-  { src: img4, alt: 'Smartphone', caption: 'Latest model with triple camera system' },
-  { src: img5, alt: 'Fitness Tracker', caption: 'Waterproof activity tracker with heart monitor' },
-  { src: img6, alt: 'Coffee Maker', caption: 'Premium espresso machine with milk frother' },
-];
+// Dynamically import all WebP images from the Product folder
+const importAll = (r) => r.keys().map(r);
+const imageContext = require.context('../assets/product/', false, /\.webp$/);
+const imageFiles = importAll(imageContext);
 
-function Products() {
+// Create product objects with metadata
+const products = imageFiles.map((src, index) => ({
+  src,
+  alt: `Product ${index + 1}`,
+  caption: `High-quality product ${index + 1} from our collection`,
+  price: `$${(Math.random() * 100 + 10).toFixed(2)}` // Random price for demonstration
+}));
+
+const Products = () => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto-advance slideshow
   useEffect(() => {
+    if (products.length === 0) return;
+    
     const timer = setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % photos.length);
+      setCurrentSlide((prev) => (prev + 1) % products.length);
     }, 3000);
     return () => clearTimeout(timer);
   }, [currentSlide]);
 
-  const openLightbox = (photo) => {
-    setCurrentImage(photo);
+  const openLightbox = (product) => {
+    setCurrentImage(product);
     setIsLightboxOpen(true);
   };
 
@@ -60,48 +60,51 @@ function Products() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 p-4 md:p-8">
-      {/* Slideshow Section */}
-      <div className="mb-16 pt-16">
-        <motion.h1 
-          className="text-4xl md:text-6xl font-extrabold mb-8 text-center text-gray-700"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          Featured Products
-        </motion.h1>
-        
-        <div className="relative w-full max-w-4xl h-96 md:h-[500px] mx-auto overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.8 }}
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <img
-                src={photos[currentSlide].src}
-                alt={photos[currentSlide].alt}
-                className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
-              />
-              <motion.div 
-                className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+      {/* Slideshow Section - Always visible */}
+      {products.length > 0 && (
+        <div className="mb-16 pt-16">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-extrabold mb-8 text-center text-gray-700"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            Featured Products
+          </motion.h1>
+          
+          <div className="relative w-full max-w-4xl h-96 md:h-[500px] mx-auto overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.8 }}
+                className="absolute inset-0 flex items-center justify-center"
               >
-                <h3 className="text-xl font-bold text-white">{photos[currentSlide].alt}</h3>
-                <p className="text-gray-200">{photos[currentSlide].caption}</p>
+                <img
+                  src={products[currentSlide].src}
+                  alt={products[currentSlide].alt}
+                  className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
+                />
+                <motion.div 
+                  className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <h3 className="text-xl font-bold text-white">{products[currentSlide].alt}</h3>
+                  <p className="text-gray-200">{products[currentSlide].caption}</p>
+                  <p className="text-white font-bold mt-2">{products[currentSlide].price}</p>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Grid Gallery Section */}
+      {/* Grid Gallery Section - Always visible below slideshow */}
       <div className="pt-8">
         <motion.h1 
           className="text-4xl font-extrabold mb-12 text-center text-gray-700"
@@ -109,11 +112,11 @@ function Products() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          Product Collection
+          Product Catalog ({products.length} Items)
         </motion.h1>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {photos.map((photo, index) => (
+          {products.map((product, index) => (
             <motion.div
               key={index}
               custom={index}
@@ -121,12 +124,12 @@ function Products() {
               animate="visible"
               variants={itemVariants}
               className="group relative cursor-pointer"
-              onClick={() => openLightbox(photo)}
+              onClick={() => openLightbox(product)}
             >
               <div className="relative overflow-hidden rounded-xl shadow-lg h-80">
                 <motion.img
-                  src={photo.src}
-                  alt={photo.alt}
+                  src={product.src}
+                  alt={product.alt}
                   className="w-full h-full object-cover"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.5 }}
@@ -136,8 +139,9 @@ function Products() {
                   initial={{ opacity: 0 }}
                 >
                   <div>
-                    <h3 className="text-xl font-bold text-white">{photo.alt}</h3>
-                    <p className="text-gray-200">{photo.caption}</p>
+                    <h3 className="text-xl font-bold text-white">{product.alt}</h3>
+                    <p className="text-gray-200">{product.caption}</p>
+                    <p className="text-white font-bold mt-2">{product.price}</p>
                   </div>
                 </motion.div>
               </div>
@@ -161,7 +165,6 @@ function Products() {
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
-              onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={currentImage?.src}
@@ -178,6 +181,7 @@ function Products() {
               <div className="absolute bottom-4 left-4 right-4 bg-black/50 text-white p-4 rounded-lg">
                 <h3 className="text-xl font-bold">{currentImage?.alt}</h3>
                 <p>{currentImage?.caption}</p>
+                <p className="text-white font-bold mt-2">{currentImage?.price}</p>
               </div>
             </motion.div>
           </motion.div>
@@ -185,6 +189,6 @@ function Products() {
       </AnimatePresence>
     </div>
   );
-}
+};
 
 export default Products;

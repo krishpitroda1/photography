@@ -37,7 +37,9 @@ const Navbar = () => {
     'Jewellery': '/jewellery',
     'Products': '/products',
     'Person': '/people',
-    'Wedding': '/wedding'
+    'Wedding': '/wedding',
+    'Fashion':'/Fashion',
+    'Wildlife':'/wildlife'
   };
 
   return (

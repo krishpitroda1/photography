@@ -11,7 +11,10 @@ import Portfolio from "./pages/Portfolio";
 import Clients from "./pages/Clients";
 import Lens from "./pages/Lens";
 import BTS  from "./pages/BTS";
+// import { HashRouter as Router } from "react-router-dom";
+import Wildlife from "./pages/Wildlife";
 import Wedding from "./pages/Wedding";
+import Fashion from "./pages/Fashion";
 import Services from "./components/Services";
 import Footer from "./components/Footer";
 function App() {
@@ -34,7 +37,9 @@ function App() {
 
           {/* Main Content */}
           <main className="text-center">
-          <Routes>
+            {/* <Router> */}
+
+            <Routes>
   <Route path="/" element={<Home />} />
   <Route path="/people" element={<People />} />
   <Route path="/portfolio" element={<Portfolio />} />  {/* Changed from /Portfolio */}
@@ -42,11 +47,16 @@ function App() {
   <Route path="/clients" element={<Clients />} />
   <Route path="/bts" element={<BTS />} />
   <Route path="/wedding" element={<Wedding />} />
+  <Route path="/fashion" element={<Fashion />} />
+  <Route path="/wildlife" element={<Wildlife />} />
+  
   <Route path="/services" element={<Services />} />    {/* Changed from /Services */}
   <Route path="/jewellery" element={<Jewellery />} />
   <Route path="/products" element={<Products />} />
   <Route path="/contact" element={<ContactUs />} />    {/* Changed from /ContactUs */}
 </Routes>
+  
+            {/* </Router> */}
           </main>
 <Footer/>
         </>

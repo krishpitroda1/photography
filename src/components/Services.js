@@ -1,11 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import pr1 from "../assets/Products/pr1.jpg"
-import pr2 from "../assets/Products/pr2.jpg"
-import pr3 from "../assets/Products/pr3.jpg"
-import pr4 from "../assets/pr2.jpg"
-import f1 from "../assets/f22.jpg"
+import pr1 from "../assets/f34.jpg"
+import pr2 from "../assets/f34.jpg"
+import pr3 from "../assets/f34.jpg"
+import pr4 from "../assets/j2.jpg"
+import f1 from "../assets/j2.jpg"
 import f2 from "../assets/f18.jpg"
 import f3 from "../assets/f34.jpg"
 import f4 from "../assets/f65.jpg";
