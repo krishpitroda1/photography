@@ -1,29 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom"; // Removed BrowserRouter
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import People from "./pages/People";
-import Jewellery from "./pages/Jewellery";
-import Products from "./pages/Products";
-import ContactUs from "./pages/ContactUs";
-import Portfolio from "./pages/Portfolio";
-import Clients from "./pages/Clients";
-import Lens from "./pages/Lens";
-import BTS  from "./pages/BTS";
-// import { HashRouter as Router } from "react-router-dom";
-import Wildlife from "./pages/Wildlife";
-import Wedding from "./pages/Wedding";
-import Fashion from "./pages/Fashion";
-import Services from "./components/Services";
 import Footer from "./components/Footer";
+
+// Lazy load all page components
+const Home = lazy(() => import("./pages/Home"));
+const People = lazy(() => import("./pages/People"));
+const Jewellery = lazy(() => import("./pages/Jewellery"));
+const Products = lazy(() => import("./pages/Products"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const Clients = lazy(() => import("./pages/Clients"));
+const Lens = lazy(() => import("./pages/Lens"));
+const BTS = lazy(() => import("./pages/BTS"));
+const Wildlife = lazy(() => import("./pages/Wildlife"));
+const Wedding = lazy(() => import("./pages/Wedding"));
+const Fashion = lazy(() => import("./pages/Fashion"));
+const Services = lazy(() => import("./components/Services"));
+
 function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    // Preload critical resources
+    const preloadImages = async () => {
+      const imageUrls = [
+        // Add paths to your most critical images here
+        '/images/hero-image.jpg',
+        '/images/logo.png'
+      ];
+      
+      await Promise.all(imageUrls.map(url => {
+        new Image().src = url;
+      }));
+    };
+
+    const timer = setTimeout(() => {
       setLoading(false);
     }, 3500);
+
+    preloadImages();
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -32,37 +51,31 @@ function App() {
         <SplashScreen />
       ) : (
         <>
-          {/* Navbar */}
-          <Navbar/>
-
-          {/* Main Content */}
+          <Navbar />
           <main className="text-center">
-            {/* <Router> */}
-
-            <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/people" element={<People />} />
-  <Route path="/portfolio" element={<Portfolio />} />  {/* Changed from /Portfolio */}
-  <Route path="/lens" element={<Lens />} />
-  <Route path="/clients" element={<Clients />} />
-  <Route path="/bts" element={<BTS />} />
-  <Route path="/wedding" element={<Wedding />} />
-  <Route path="/fashion" element={<Fashion />} />
-  <Route path="/wildlife" element={<Wildlife />} />
-  
-  <Route path="/services" element={<Services />} />    {/* Changed from /Services */}
-  <Route path="/jewellery" element={<Jewellery />} />
-  <Route path="/products" element={<Products />} />
-  <Route path="/contact" element={<ContactUs />} />    {/* Changed from /ContactUs */}
-</Routes>
-  
-            {/* </Router> */}
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/people" element={<People />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/lens" element={<Lens />} />
+                <Route path="/clients" element={<Clients />} />
+                <Route path="/bts" element={<BTS />} />
+                <Route path="/wedding" element={<Wedding />} />
+                <Route path="/fashion" element={<Fashion />} />
+                <Route path="/wildlife" element={<Wildlife />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/jewellery" element={<Jewellery />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/contact" element={<ContactUs />} />
+              </Routes>
+            </Suspense>
           </main>
-<Footer/>
+          <Footer />
         </>
       )}
     </div>
   );
 }
 
-export default App;
+export default React.memo(App);

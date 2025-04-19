@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Image imports
 import jewelry1 from "../assets/j1.jpg";
 import jewelry2 from "../assets/j2.jpg";
 import jewelry3 from "../assets/j3.jpg";
@@ -17,7 +16,12 @@ import wildlife1 from "../assets/w1.webp";
 import wildlife2 from "../assets/w2.webp";
 import wildlife3 from "../assets/w4.webp";
 
-// Image configuration
+// Lazy load Lightbox component
+const Lightbox = lazy(() => import('../components/Lightbox'));
+
+
+
+// Image configuration with absolute paths
 const IMAGES = {
   jewellery: [
     { src: jewelry1, alt: 'Elegant Diamond Necklace', caption: 'Handcrafted diamond necklace with platinum setting' },
@@ -37,79 +41,58 @@ const IMAGES = {
   ],
   wildlife: [
     { src: wildlife1, alt: 'Wildlife Photography', caption: 'Nature in its purest form' },
-    { src: wildlife2, alt: 'Wildlife Closeup', caption: 'Detailed animal portrait' }
-    ,{ src: wildlife3, alt: 'Wildlife Closeup', caption: 'Detailed animal portrait' }
-  
+    { src: wildlife2, alt: 'Wildlife Closeup', caption: 'Detailed animal portrait' },
+    { src: wildlife3, alt: 'Wildlife Closeup', caption: 'Detailed animal portrait' }
   ]
 };
 
-const PhotoCard = React.memo(({ photo, index, openLightbox }) => (
-  <motion.div
-    custom={index}
-    variants={{
-      hidden: { opacity: 0, y: 50 },
-      visible: (i) => ({
-        opacity: 1,
-        y: 0,
-        transition: { delay: i * 0.1, duration: 0.8 }
-      })
-    }}
-    className="group relative cursor-pointer overflow-hidden rounded-xl shadow-lg h-48 sm:h-56 md:h-64"
-    onClick={() => openLightbox(photo)}
-    role="button"
-    tabIndex="0"
-    aria-label={`View ${photo.alt} in lightbox`}
-  >
-    <img
-      src={photo.src}
-      alt={photo.alt}
-      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-      loading="lazy"
-    />
-    <div className="absolute inset-0 bg-black/30 flex items-end p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      <div>
-        <h3 className="text-base md:text-xl font-bold text-white">{photo.alt}</h3>
-        <p className="text-xs md:text-sm text-gray-200">{photo.caption}</p>
-      </div>
-    </div>
-  </motion.div>
-));
+const PhotoCard = React.memo(({ photo, index, openLightbox }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
 
-const Lightbox = ({ image, onClose }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-    onClick={onClose}
-  >
-    <div className="relative max-w-6xl w-full">
-      <button
-        className="absolute -top-12 right-0 text-white text-3xl hover:text-gray-300 transition-colors"
-        onClick={onClose}
-        aria-label="Close lightbox"
-      >
-        &times;
-      </button>
-      <div className="flex flex-col items-center">
-        <img
-          src={image.src}
-          alt={image.alt}
-          className="max-h-[80vh] w-auto rounded-lg shadow-xl"
-        />
-        <div className="mt-4 text-white text-center max-w-2xl">
-          <h3 className="text-2xl font-bold">{image.alt}</h3>
-          <p className="text-lg mt-2">{image.caption}</p>
+  return (
+    <motion.div
+      custom={index}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: (i) => ({
+          opacity: 1,
+          y: 0,
+          transition: { delay: i * 0.1, duration: 0.8 }
+        })
+      }}
+      className="group relative cursor-pointer overflow-hidden rounded-xl shadow-lg h-48 sm:h-56 md:h-64"
+      onClick={() => openLightbox(photo)}
+      role="button"
+      tabIndex="0"
+      aria-label={`View ${photo.alt} in lightbox`}
+    >
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl"></div>
+      )}
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        className={`w-full h-full object-cover transition-opacity duration-500 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        } group-hover:scale-110 transform duration-500`}
+        loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+      />
+      <div className="absolute inset-0 bg-black/30 flex items-end p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div>
+          <h3 className="text-base md:text-xl font-bold text-white">{photo.alt}</h3>
+          <p className="text-xs md:text-sm text-gray-200">{photo.caption}</p>
         </div>
       </div>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+});
 
 const Portfolio = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
+  const [loadedSlides, setLoadedSlides] = useState([]);
 
   const refs = {
     jewellery: useRef(null),
@@ -120,10 +103,10 @@ const Portfolio = () => {
   };
 
   const visibility = {
-    jewellery: useInView(refs.jewellery, { once: false, margin: "-100px" }),
-    products: useInView(refs.products, { once: false, margin: "-100px" }),
-    fashion: useInView(refs.fashion, { once: false, margin: "-100px" }),
-    wildlife: useInView(refs.wildlife, { once: false, margin: "-100px" }),
+    jewellery: useInView(refs.jewellery, { once: true, margin: "100px" }),
+    products: useInView(refs.products, { once: true, margin: "100px" }),
+    fashion: useInView(refs.fashion, { once: true, margin: "100px" }),
+    wildlife: useInView(refs.wildlife, { once: true, margin: "100px" }),
   };
 
   const featuredImages = [
@@ -133,6 +116,19 @@ const Portfolio = () => {
     IMAGES.wildlife[0]
   ];
 
+  // Preload slideshow images
+  useEffect(() => {
+    const loadImages = featuredImages.map((img, index) => {
+      const image = new Image();
+      image.src = img.src;
+      image.onload = () => {
+        setLoadedSlides(prev => [...prev, index]);
+      };
+      return image;
+    });
+  }, []);
+
+  // Auto-slide with cleanup
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentSlide((prev) => (prev + 1) % featuredImages.length);
@@ -157,12 +153,12 @@ const Portfolio = () => {
     center: { 
       opacity: 1, 
       x: 0,
-      transition: { type: 'spring', stiffness: 100 }
+      transition: { type: 'spring', stiffness: 100, damping: 20 }
     },
     exit: { 
       opacity: 0, 
       x: -100,
-      transition: { ease: 'easeInOut' }
+      transition: { ease: 'easeInOut', duration: 0.5 }
     }
   };
 
@@ -171,7 +167,7 @@ const Portfolio = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, staggerChildren: 0.1 }
+      transition: { duration: 0.6, staggerChildren: 0.1 }
     }
   };
 
@@ -182,7 +178,7 @@ const Portfolio = () => {
           className="text-4xl md:text-5xl font-extrabold text-center text-gray-700 mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 0.8 }}
         >
           Photography Portfolio
         </motion.h1>
@@ -195,19 +191,19 @@ const Portfolio = () => {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 1 }}
               className="absolute inset-0 flex items-center justify-center"
             >
               <img
                 src={featuredImages[currentSlide].src}
                 alt={featuredImages[currentSlide].alt}
                 className="w-full h-full object-cover"
+                loading="eager"
               />
               <motion.div
                 className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.3 }}
               >
                 <h3 className="text-xl md:text-2xl font-bold text-white">{featuredImages[currentSlide].alt}</h3>
                 <p className="text-sm md:text-base text-gray-200">{featuredImages[currentSlide].caption}</p>
@@ -222,150 +218,55 @@ const Portfolio = () => {
         ref={refs.galleryStart} 
         className="container mx-auto px-4 py-12 space-y-20"
       >
-        {/* Jewellery Section */}
-        <motion.section
-          ref={refs.jewellery}
-          initial="hidden"
-          animate={visibility.jewellery ? 'visible' : 'hidden'}
-          variants={sectionVariants}
-          className="space-y-8"
-        >
-          <div className="flex justify-between items-center">
-            <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
-              Jewellery Photography
-            </motion.h2>
-            <Link to="/jewellery">
-              <motion.button
-                className="px-4 py-2 bg-blue-600 text-white rounded-full text-sm md:text-base hover:bg-blue-700 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Jewellery
-              </motion.button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {IMAGES.jewellery.slice(0, 3).map((photo, index) => (
-              <PhotoCard 
-                key={`jewellery-${index}`} 
-                photo={photo} 
-                index={index} 
-                openLightbox={openLightbox} 
-              />
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Products Section */}
-        <motion.section
-          ref={refs.products}
-          initial="hidden"
-          animate={visibility.products ? 'visible' : 'hidden'}
-          variants={sectionVariants}
-          className="space-y-8"
-        >
-          <div className="flex justify-between items-center">
-            <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
-              Product Photography
-            </motion.h2>
-            <Link to="/products">
-              <motion.button
-                className="px-4 py-2 bg-green-600 text-white rounded-full text-sm md:text-base hover:bg-green-700 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Products
-              </motion.button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {IMAGES.products.slice(0, 3).map((photo, index) => (
-              <PhotoCard 
-                key={`products-${index}`} 
-                photo={photo} 
-                index={index} 
-                openLightbox={openLightbox} 
-              />
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Fashion Section */}
-        <motion.section
-          ref={refs.fashion}
-          initial="hidden"
-          animate={visibility.fashion ? 'visible' : 'hidden'}
-          variants={sectionVariants}
-          className="space-y-8"
-        >
-          <div className="flex justify-between items-center">
-            <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
-              Fashion Photography
-            </motion.h2>
-            <Link to="/fashion">
-              <motion.button
-                className="px-4 py-2 bg-purple-600 text-white rounded-full text-sm md:text-base hover:bg-purple-700 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Fashion
-              </motion.button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {IMAGES.fashion.slice(0, 3).map((photo, index) => (
-              <PhotoCard 
-                key={`fashion-${index}`} 
-                photo={photo} 
-                index={index} 
-                openLightbox={openLightbox} 
-              />
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Wildlife Section */}
-        <motion.section
-          ref={refs.wildlife}
-          initial="hidden"
-          animate={visibility.wildlife ? 'visible' : 'hidden'}
-          variants={sectionVariants}
-          className="space-y-8"
-        >
-          <div className="flex justify-between items-center">
-            <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
-              Wildlife Photography
-            </motion.h2>
-            <Link to="/wildlife">
-              <motion.button
-                className="px-4 py-2 bg-orange-600 text-white rounded-full text-sm md:text-base hover:bg-orange-700 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Wildlife
-              </motion.button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {IMAGES.wildlife.slice(0, 3).map((photo, index) => (
-              <PhotoCard 
-                key={`wildlife-${index}`} 
-                photo={photo} 
-                index={index} 
-                openLightbox={openLightbox} 
-              />
-            ))}
-          </div>
-        </motion.section>
+        {['jewellery', 'products', 'fashion', 'wildlife'].map((category) => (
+          <motion.section
+            key={category}
+            ref={refs[category]}
+            initial="hidden"
+            animate={visibility[category] ? 'visible' : 'hidden'}
+            variants={sectionVariants}
+            className="space-y-8"
+          >
+            <div className="flex justify-between items-center">
+              <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
+                {category.charAt(0).toUpperCase() + category.slice(1)} Photography
+              </motion.h2>
+              <Link to={`/${category}`}>
+                <motion.button
+                  className={`px-4 py-2 ${
+                    category === 'jewellery' ? 'bg-blue-600 hover:bg-blue-700' :
+                    category === 'products' ? 'bg-green-600 hover:bg-green-700' :
+                    category === 'fashion' ? 'bg-purple-600 hover:bg-purple-700' :
+                    'bg-orange-600 hover:bg-orange-700'
+                  } text-white rounded-full text-sm md:text-base transition-colors`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  View {category.charAt(0).toUpperCase() + category.slice(1)}
+                </motion.button>
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {IMAGES[category].map((photo, index) => (
+                <PhotoCard 
+                  key={`${category}-${index}`} 
+                  photo={photo} 
+                  index={index} 
+                  openLightbox={openLightbox} 
+                />
+              ))}
+            </div>
+          </motion.section>
+        ))}
       </div>
 
-      <AnimatePresence>
+      <Suspense fallback={null}>
         {isLightboxOpen && (
           <Lightbox image={currentImage} onClose={closeLightbox} />
         )}
-      </AnimatePresence>
+      </Suspense>
     </div>
   );
 };
 
-export default Portfolio;
+export default React.memo(Portfolio);

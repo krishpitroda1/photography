@@ -29,7 +29,6 @@ const Navbar = () => {
     'Portfolio': '/portfolio',
     'The Lens': '/lens',
     'Clients & Stories': '/clients',
-    'Behind the Scene': '/bts'
   };
 
   // Services dropdown items
@@ -38,8 +37,8 @@ const Navbar = () => {
     'Products': '/products',
     'Person': '/people',
     'Wedding': '/wedding',
-    'Fashion':'/Fashion',
-    'Wildlife':'/wildlife'
+    'Fashion': '/Fashion',
+    'Wildlife': '/wildlife'
   };
 
   return (
@@ -91,46 +90,18 @@ const Navbar = () => {
                 onMouseLeave={() => setServicesOpen(false)}
               >
                 <Link to="/Services">
-                <motion.div
-                  className="flex items-center text-white hover:text-amber-400 py-2 font-medium cursor-pointer transition-colors"
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  <motion.div
+                    className="flex items-center text-white hover:text-amber-400 py-2 font-medium cursor-pointer transition-colors"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                  Services
-                  {/* <FaChevronDown className={`ml-2 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} /> */}
-                </motion.div>
-                
-                  </Link>
-                {/* <AnimatePresence>
-                  {servicesOpen && (
-                    <motion.ul 
-                      className="absolute top-full left-0 bg-neutral-900/90 backdrop-blur-md rounded-lg shadow-lg py-2 min-w-[200px] z-50"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {Object.entries(servicesItems).map(([service, route]) => (
-                        <motion.li 
-                          key={service}
-                          whileHover={{ x: 5 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Link 
-                            to={route} 
-                            className="block px-4 py-2 text-white hover:text-amber-400 hover:bg-neutral-800/50 transition-colors"
-                          >
-                            {service}
-                          </Link>
-                        </motion.li>
-                      ))}
-                    </motion.ul>
-                  )}
-                </AnimatePresence> */}
+                    Services
+                  </motion.div>
+                </Link>
               </motion.li>
             </ul>
 
-            {/* Book Your Shoot Button - Separated with margin */}
+            {/* Book Your Shoot Button */}
             <motion.div
               className="ml-4"
               whileHover={{ scale: 1.05 }}
@@ -168,15 +139,6 @@ const Navbar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            {/* Close Button */}
-            <button 
-              className="absolute top-6 right-4 w-12 h-12 bg-neutral-900 rounded-md flex items-center justify-center text-white z-50"
-              onClick={closeMenu}
-              aria-label="Close menu"
-            >
-              <FaTimes />
-            </button>
-            
             <div className="flex flex-col items-center space-y-6 h-full overflow-y-auto pb-12">
               {Object.entries(pageRoutes).map(([item, route], index) => (
                 <motion.div
