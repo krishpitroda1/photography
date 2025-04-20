@@ -1,9 +1,22 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route,useLocation } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth", // or "auto" for instant scroll
+    });
+  }, [pathname]);
+
+  return null;
+};
 // Lazy load all page components
 const Home = lazy(() => import("./pages/Home"));
 const People = lazy(() => import("./pages/People"));
@@ -52,6 +65,7 @@ function App() {
       ) : (
         <>
           <Navbar />
+          <ScrollToTop/>
           <main className="text-center">
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
               <Routes>

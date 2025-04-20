@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Link } from 'react-router-dom';
-
+import { Link,useLocation } from 'react-router-dom';
 import jewelry1 from "../assets/j1.jpg";
 import jewelry2 from "../assets/j2.jpg";
 import jewelry3 from "../assets/j3.jpg";
@@ -172,7 +171,7 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300">
+    <div className="min-h-screen pt-10 bg-gradient-to-b from-gray-100 to-gray-300">
       <div className="pt-20 pb-12 px-4">
         <motion.h1
           className="text-4xl md:text-5xl font-extrabold text-center text-gray-700 mb-8"
