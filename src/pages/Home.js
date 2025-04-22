@@ -16,11 +16,32 @@ import img7 from "../assets/Homei/7.webp";
 import img8 from "../assets/Homei/8.webp";
 import img9 from "../assets/Homei/9.webp";
 import img10 from "../assets/Homei/10.webp";
+import img12 from '../assets/Home1.jpg';
+import img13 from '../assets/Home2.jpg';
+import img14 from '../assets/1.jpg';
+import img15 from '../assets/2.jpg';
+import img16 from '../assets/3.webp';
+import img17 from '../assets/4.jpg';
+import img18 from '../assets/5.jpg';
+import img20 from '../assets/6.jpg';
+import img21 from '../assets/f18.jpg';
+import img22 from '../assets/f65.jpg';
+import img23 from '../assets/p4.jpg';
+import img24 from '../assets/j2.jpg';
+import img25 from '../assets/j3.jpg';
+import img26 from '../assets/p1.jpg';
+import img27 from '../assets/p2.jpg';
+import img28 from '../assets/pr6.jpg';
+import img29 from '../assets/pr5.jpg';
+import img30 from '../assets/w1.webp';
+import img31 from '../assets/w2.webp';
+
+
 import img11 from "../assets/Homei/11.webp";
 
-const selectedHeroImages = [img5, img6, img11];
+const selectedHeroImages = [img5, img6, img11,img12,img13];
 const galleryImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
-
+const workimages=[img14,img15,img16,img17,img18,img21,img20,img22,img23,img24,img25,img26,img27,img28,img29,img30,img31];
 const gridItems = [
   { image: img1, title: "Weddings", color: "from-pink-500/20 to-purple-600/20" },
   { image: img2, title: "Fashion", color: "from-blue-500/20 to-teal-600/20" },
