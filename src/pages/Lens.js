@@ -1,5 +1,8 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import photographyImage from '../assets/lens1.jpg';
+import vid1 from "../assets/lens1.mp4";
+import vid2 from "../assets/len2.mp4";
 import './LensPage.css';
 
 const ColorPalette = {
@@ -12,6 +15,8 @@ const ColorPalette = {
 
 const Lens = () => {
   const containerRef = useRef(null);
+  const videoRef1 = useRef(null);
+  const videoRef2 = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -26,6 +31,16 @@ const Lens = () => {
     { id: 3, year: '2016', title: 'Los Angeles, California', content: 'During his time in LA, Rushank had the opportunity to collaborate on professional shoots—including with Hollywood/TV actor.' },
     { id: 4, year: '2013-Present', title: 'Rushank Agrawal Fotografia', content: 'Over the past 12+ years, Rushank has built Rushank Agrawal Fotografia, now known for its soulful, naturalistic photography—especially in the candid wedding and pre-wedding space. With over 7,000 followers on Instagram and growing, his work continues to speak for itself.' },
   ];
+
+  const handleVideoHover = (videoRef, isHovering) => {
+    if (videoRef.current) {
+      if (isHovering) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
 
   return (
     <div className="lens-container" ref={containerRef}>
@@ -70,7 +85,34 @@ const Lens = () => {
         </div>
       </motion.section>
 
-      {/* Philosophy Section - Clean Modern Style */}
+      {/* First Video Section - Showreel */}
+      <section className="relative w-full h-screen flex items-center justify-center bg-black overflow-hidden">
+        <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
+          <div className="text-center px-6 max-w-4xl">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              Through The <span className="text-red-500">Lens</span>
+            </h2>
+            <p className="text-lg text-gray-300 mb-8">
+              A cinematic journey through moments frozen in time
+            </p>
+          </div>
+        </div>
+        <video
+          ref={videoRef1}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          onMouseEnter={() => handleVideoHover(videoRef1, true)}
+          onMouseLeave={() => handleVideoHover(videoRef1, false)}
+        >
+          <source src={vid1} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </section>
+
+      {/* Philosophy Section */}
       <motion.section
         className="w-full px-6 md:px-20 py-24 bg-black text-white"
         initial={{ opacity: 0, y: 50 }}
@@ -83,22 +125,70 @@ const Lens = () => {
             Photography With <span className="text-red-500">Intent</span>
           </h2>
           <p className="text-gray-300 leading-relaxed text-lg">
-            At Lens, photography isn’t just about clicking the shutter—it’s about seeing the unseen,
-            capturing fleeting emotions, and freezing time in its most authentic form. What began as
-            a simple love for the craft has evolved into a full-fledged passion project driven by
-            an eye for detail and a heart for stories.
-          </p>
-          <p className="text-gray-400 leading-relaxed text-lg">
-            Every frame here is a result of curiosity, creativity, and deep connection with the subject.
-            Whether it’s the warmth of a candid smile, the chaos of a city street, or the stillness
-            of a landscape—each image is a piece of something real.
-          </p>
-          <p className="text-gray-500 leading-relaxed text-lg">
-            This portfolio is not just a display of images; it's a reflection of years of learning,
-            unlearning, and evolving as an artist. Welcome to our world—where we shoot with soul and see with intent.
+            At Lens, photography isn't just about clicking the shutter—it's about seeing the unseen,
+            capturing fleeting emotions, and freezing time in its most authentic form.
           </p>
         </div>
       </motion.section>
+
+      {/* Photography Showcase Section */}
+      <section className="relative w-full min-h-screen bg-black flex items-center justify-center p-6">
+        <div className="absolute inset-0 overflow-hidden">
+          <img 
+            src={photographyImage} 
+            alt="Signature Photography" 
+            className="w-full h-full object-cover opacity-30 blur-sm"
+          />
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6 text-white">
+            <h2 className="text-4xl md:text-5xl font-bold">
+              The <span className="text-red-500">Art</span> of Seeing
+            </h2>
+            <p className="text-gray-300 text-lg">
+              Each photograph is a testament to the beauty found in raw, unfiltered moments.
+            </p>
+            <button className="px-8 py-3 bg-red-500 text-white font-medium rounded-full hover:bg-red-600 transition-all duration-300">
+              View Portfolio
+            </button>
+          </div>
+          <div className="relative group">
+            <div className="absolute -inset-2 bg-red-500/30 rounded-xl blur-lg group-hover:opacity-75 transition-all duration-300"></div>
+            <img 
+              src={photographyImage} 
+              alt="Signature Photography" 
+              className="relative rounded-lg shadow-2xl w-full h-auto max-h-[80vh] object-cover z-10"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Second Video Section - Behind the Scenes */}
+      <section className="relative w-full h-screen flex items-center justify-center bg-black overflow-hidden">
+        <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
+          <div className="text-center px-6 max-w-4xl">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              Behind The <span className="text-red-500">Scenes</span>
+            </h2>
+            <p className="text-lg text-gray-300 mb-8">
+              Discover the process behind creating timeless imagery
+            </p>
+          </div>
+        </div>
+        <video
+          ref={videoRef2}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          onMouseEnter={() => handleVideoHover(videoRef2, true)}
+          onMouseLeave={() => handleVideoHover(videoRef2, false)}
+        >
+          <source src={vid2} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </section>
 
       {/* Journey Section */}
       <section className="py-20 px-4 md:px-20 relative bg-gradient-to-b from-neutral-900 via-black to-neutral-950">

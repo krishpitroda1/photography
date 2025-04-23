@@ -35,13 +35,13 @@ import img28 from '../assets/pr6.jpg';
 import img29 from '../assets/pr5.jpg';
 import img30 from '../assets/w1.webp';
 import img31 from '../assets/w2.webp';
-
+import img32 from  '../assets/w3.webp';
 
 import img11 from "../assets/Homei/11.webp";
 
 const selectedHeroImages = [img5, img6, img11,img12,img13];
 const galleryImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
-const workimages=[img14,img15,img16,img17,img18,img21,img20,img22,img23,img24,img25,img26,img27,img28,img29,img30,img31];
+const workimages=[img14,img15,img16,img17,img18,img21,img20,img22,img23,img24,img25,img26,img27,img28,img29,img30,img31,img32];
 const gridItems = [
   { image: img1, title: "Weddings", color: "from-pink-500/20 to-purple-600/20" },
   { image: img2, title: "Fashion", color: "from-blue-500/20 to-teal-600/20" },
@@ -286,26 +286,25 @@ const Home = () => {
           </motion.h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {gridItems.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative aspect-square rounded-xl overflow-hidden group"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-b ${item.color} transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-70' : 'opacity-30'}`}></div>
-             
-              </motion.div>
-            ))}
+          {workimages.map((imageSrc, index) => (
+  <motion.div
+    key={index}
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay: index * 0.1 }}
+    className="relative aspect-square rounded-xl overflow-hidden group"
+    onMouseEnter={() => setHoveredIndex(index)}
+    onMouseLeave={() => setHoveredIndex(null)}
+  >
+    <img 
+      src={imageSrc} 
+      alt={`Work ${index + 1}`} 
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+    />
+    <div className={`absolute inset-0 bg-gradient-to-b from-black to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-70' : 'opacity-30'}`}></div>
+  </motion.div>
+))}
           </div>
           
           <motion.div
