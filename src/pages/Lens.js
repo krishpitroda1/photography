@@ -26,10 +26,10 @@ const Lens = () => {
   const backgroundPos = useTransform(scrollYProgress, [0, 1], ['0% 0%', '100% 100%']);
 
   const years = [
-    { id: 1, year: '2013', title: 'The Beginning', content: "Rushank Agrawal's journey into photography began over a decade ago, turning a deep interest into a professional pursuit. What started with a camera and curiosity quickly turned into a vision." },
+    { id: 4, year: '2013', title: 'The Beginning', content: "Rushank Agrawal's journey into photography began over a decade ago, turning a deep interest into a professional pursuit. What started with a camera and curiosity quickly turned into a vision." },
     { id: 2, year: '2015-2017', title: 'New York Film Academy', content: 'Rushank sharpened his skills at the prestigious New York Film Academy, earning a Bachelor of Fine Arts (BFA) in Photography. The experience brought both technical excellence and global exposure.' },
     { id: 3, year: '2016', title: 'Los Angeles, California', content: 'During his time in LA, Rushank had the opportunity to collaborate on professional shoots—including with Hollywood/TV actor.' },
-    { id: 4, year: '2013-Present', title: 'Rushank Agrawal Fotografia', content: 'Over the past 12+ years, Rushank has built Rushank Agrawal Fotografia, now known for its soulful, naturalistic photography—especially in the candid wedding and pre-wedding space. With over 7,000 followers on Instagram and growing, his work continues to speak for itself.' },
+    { id: 1, year: '2013-Present', title: 'Rushank Agrawal Fotografia', content: 'Over the past 12+ years, Rushank has built Rushank Agrawal Fotografia, now known for its soulful, naturalistic photography—especially in the candid wedding and pre-wedding space. With over 7,000 followers on Instagram and growing, his work continues to speak for itself.' },
   ];
 
   const handleVideoHover = (videoRef, isHovering) => {
