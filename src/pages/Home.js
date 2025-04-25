@@ -36,12 +36,13 @@ import img29 from '../assets/pr5.jpg';
 import img30 from '../assets/w1.webp';
 import img31 from '../assets/w2.webp';
 import img32 from  '../assets/w3.webp';
+import img33 from '../assets/rushank.jpg';
 
 import img11 from "../assets/Homei/11.webp";
 
 const selectedHeroImages = [img5, img6, img11,img12,img13];
 const galleryImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
-const workimages=[img14,img15,img16,img17,img18,img21,img20,img22,img23,img24,img25,img26,img27,img28,img29,img30,img31,img32];
+const workimages=[img14,img15,img16,img17,img18,img21,img20,img22,img23,img24,img25,img26,img27,img28,img29];
 const gridItems = [
   { image: img1, title: "Weddings", color: "from-pink-500/20 to-purple-600/20" },
   { image: img2, title: "Fashion", color: "from-blue-500/20 to-teal-600/20" },
@@ -244,14 +245,14 @@ const Home = () => {
           >
             <div className="relative aspect-square rounded-2xl overflow-hidden">
               <img 
-                src={img7} 
+                src={img33} 
                 alt="Photographer" 
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
             </div>
             <motion.div 
-              className="absolute -bottom-6 -right-6 bg-gradient-to-r from-amber-500 to-red-500 p-1 rounded-2xl"
+              className="absolute -bottom-6  bg-gradient-to-r from-amber-500 to-red-500 p-1 rounded-2xl"
               initial={{ scale: 0.8 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}

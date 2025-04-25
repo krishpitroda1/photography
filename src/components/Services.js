@@ -1,24 +1,25 @@
 import React from 'react'
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import pr1 from "../assets/f34.jpg"
-import pr2 from "../assets/f34.jpg"
-import pr3 from "../assets/f34.jpg"
-import pr4 from "../assets/j2.jpg"
-import f1 from "../assets/j2.jpg"
+import pr1 from "../assets/pr1.jpg"
+import pr2 from "../assets/pr2.jpg"
+import pr3 from "../assets/pr3.jpg"
+import pr4 from "../assets/pr4.jpg"
+import f1 from "../assets/f22.jpg"
 import f2 from "../assets/f18.jpg"
-import f3 from "../assets/f34.jpg"
-import f4 from "../assets/f65.jpg";
+
+import f3 from "../assets/f34e.jpg"
+import f4 from "../assets/f65e.jpg";
 import j1 from "../assets/j1.jpg";
 import j2 from "../assets/j2.jpg";
-import j3 from "../assets/j3.jpg";
-import j4 from "../assets/j4.jpg";
+import j3 from "../assets/j3e.jpg";
+import j4 from "../assets/j5e.jpg";
 
 function Services() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const serviceImages = {
     product: [pr1, pr2, pr3,pr4],
-    fashion: [f1,f2,f3,f4],
+    fashion: [f3,f2,f1,f4],
     advertising: [j1, j2, j3,j4],
     campaign: [pr1, pr2, pr3,pr4],
     creative: [f1, f2, f3,f4],

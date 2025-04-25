@@ -11,7 +11,7 @@ import product4 from "../assets/pr5.jpg";
 import fashion1 from "../assets/f18.jpg";
 import fashion2 from "../assets/f34.jpg";
 import fashion3 from "../assets/f22.jpg";
-import wildlife1 from "../assets/w1.webp";
+import wildlife1 from "../assets/w3a.jpg";
 import wildlife2 from "../assets/w2.webp";
 import wildlife3 from "../assets/w4.webp";
 
@@ -28,14 +28,14 @@ const IMAGES = {
     { src: jewelry3, alt: 'Diamond Collection', caption: 'Premium diamond jewelry set' }
   ],
   products: [
-    { src: product1, alt: 'Sapphire Ring Collection', caption: 'Royal blue sapphires in white gold bands' },
-    { src: product2, alt: 'Vintage Ruby Bracelet', caption: 'Antique ruby bracelet with intricate filigree' },
+    { src: product2, alt: 'Sapphire Ring Collection', caption: 'Royal blue sapphires in white gold bands' },
+    { src: product1, alt: 'Vintage Ruby Bracelet', caption: 'Antique ruby bracelet with intricate filigree' },
     { src: product3, alt: 'Product Shot', caption: 'Professional product photography' },
-    { src: product4, alt: 'Luxury Watch', caption: 'High-end timepiece closeup' }
+    // { src: product4, alt: 'Luxury Watch', caption: 'High-end timepiece closeup' }
   ],
   fashion: [
-    { src: fashion1, alt: 'Modern Silver Set', caption: 'Contemporary silver jewellery collection' },
-    { src: fashion2, alt: 'Bridal Diamond Set', caption: 'Luxurious bridal diamond jewellery ensemble' },
+    { src: fashion3, alt: 'Modern Silver Set', caption: 'Contemporary silver jewellery collection' },
+    { src: fashion1, alt: 'Bridal Diamond Set', caption: 'Luxurious bridal diamond jewellery ensemble' },
     { src: fashion3, alt: 'Fashion Collection', caption: 'Modern fashion accessories' }
   ],
   wildlife: [
@@ -79,8 +79,12 @@ const PhotoCard = React.memo(({ photo, index, openLightbox }) => {
       />
       <div className="absolute inset-0 bg-black/30 flex items-end p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div>
-          <h3 className="text-base md:text-xl font-bold text-white">{photo.alt}</h3>
-          <p className="text-xs md:text-sm text-gray-200">{photo.caption}</p>
+     
+     
+     
+          {/* <h3 className="text-base md:text-xl font-bold text-white">{photo.alt}</h3> */}
+        
+          {/* <p className="text-xs md:text-sm text-gray-200">{photo.caption}</p> */}
         </div>
       </div>
     </motion.div>
@@ -204,8 +208,8 @@ const Portfolio = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                <h3 className="text-xl md:text-2xl font-bold text-white">{featuredImages[currentSlide].alt}</h3>
-                <p className="text-sm md:text-base text-gray-200">{featuredImages[currentSlide].caption}</p>
+                {/* <h3 className="text-xl md:text-2xl font-bold text-white">{featuredImages[currentSlide].alt}</h3> */}
+                {/* <p className="text-sm md:text-base text-gray-200">{featuredImages[currentSlide].caption}</p> */}
               </motion.div>
             </motion.div>
           </AnimatePresence>
