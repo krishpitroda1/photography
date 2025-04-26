@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Link,useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import jewelry1 from "../assets/j1.jpg";
 import jewelry2 from "../assets/j2.jpg";
 import jewelry3 from "../assets/j3.jpg";
@@ -17,8 +18,6 @@ import wildlife3 from "../assets/w4.webp";
 
 // Lazy load Lightbox component
 const Lightbox = lazy(() => import('../components/Lightbox'));
-
-
 
 // Image configuration with absolute paths
 const IMAGES = {
@@ -47,6 +46,7 @@ const IMAGES = {
 
 const PhotoCard = React.memo(({ photo, index, openLightbox }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { theme } = useTheme();
 
   return (
     <motion.div
@@ -66,7 +66,7 @@ const PhotoCard = React.memo(({ photo, index, openLightbox }) => {
       aria-label={`View ${photo.alt} in lightbox`}
     >
       {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl"></div>
+        <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'} animate-pulse rounded-xl`}></div>
       )}
       <img
         src={photo.src}
@@ -77,13 +77,9 @@ const PhotoCard = React.memo(({ photo, index, openLightbox }) => {
         loading="lazy"
         onLoad={() => setIsLoaded(true)}
       />
-      <div className="absolute inset-0 bg-black/30 flex items-end p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-black/40' : 'bg-black/30'} flex items-end p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
         <div>
-     
-     
-     
           {/* <h3 className="text-base md:text-xl font-bold text-white">{photo.alt}</h3> */}
-        
           {/* <p className="text-xs md:text-sm text-gray-200">{photo.caption}</p> */}
         </div>
       </div>
@@ -92,6 +88,7 @@ const PhotoCard = React.memo(({ photo, index, openLightbox }) => {
 });
 
 const Portfolio = () => {
+  const { theme } = useTheme();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
@@ -175,10 +172,10 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen pt-10 bg-gradient-to-b from-gray-100 to-gray-300">
+    <div className={`min-h-screen pt-10 bg-gradient-to-b ${theme === 'dark' ? 'bg-black/70'  : ' bg-white'}`}>
       <div className="pt-20 pb-12 px-4">
         <motion.h1
-          className="text-4xl md:text-5xl font-extrabold text-center text-gray-700 mb-8"
+          className={`text-4xl md:text-5xl font-extrabold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'} mb-8`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -202,15 +199,15 @@ const Portfolio = () => {
                 className="w-full h-full object-cover"
                 loading="eager"
               />
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent"
+              {/* <motion.div
+                className={`absolute bottom-0 left-0 right-0 p-6 ${theme === 'dark' ? 'bg-black/70' : 'bg-black/50'} `}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-              >
+              > */}
                 {/* <h3 className="text-xl md:text-2xl font-bold text-white">{featuredImages[currentSlide].alt}</h3> */}
                 {/* <p className="text-sm md:text-base text-gray-200">{featuredImages[currentSlide].caption}</p> */}
-              </motion.div>
+              {/* </motion.div> */}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -231,7 +228,7 @@ const Portfolio = () => {
             className="space-y-8"
           >
             <div className="flex justify-between items-center">
-              <motion.h2 className="text-2xl md:text-3xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2">
+              <motion.h2 className={`text-2xl md:text-3xl font-bold ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'} border-b-2 ${theme === 'dark' ? 'border-gray-600' : 'border-gray-300'} pb-2`}>
                 {category.charAt(0).toUpperCase() + category.slice(1)} Photography
               </motion.h2>
               <Link to={`/${category}`}>
@@ -265,7 +262,7 @@ const Portfolio = () => {
 
       <Suspense fallback={null}>
         {isLightboxOpen && (
-          <Lightbox image={currentImage} onClose={closeLightbox} />
+          <Lightbox image={currentImage} onClose={closeLightbox} theme={theme} />
         )}
       </Suspense>
     </div>

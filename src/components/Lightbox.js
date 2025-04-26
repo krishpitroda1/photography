@@ -10,7 +10,7 @@ const Lightbox = ({ image, onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg-primary)]/90 p-4"
         onClick={onClose}
       >
         <div className="relative max-w-6xl w-full">

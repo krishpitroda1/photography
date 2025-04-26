@@ -3,7 +3,7 @@ import { Routes, Route,useLocation } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import { ThemeProvider } from "./context/ThemeContext";
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -64,6 +64,7 @@ function App() {
         <SplashScreen />
       ) : (
         <>
+          <ThemeProvider>
           <Navbar />
           <ScrollToTop/>
           <main className="text-center">
@@ -86,6 +87,7 @@ function App() {
             </Suspense>
           </main>
           <Footer />
+          </ThemeProvider>
         </>
       )}
     </div>

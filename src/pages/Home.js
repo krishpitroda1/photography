@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import { FiInstagram, FiTwitter, FiFacebook, FiArrowRight } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 import { FaCamera, FaLightbulb, FaPalette, FaQuoteLeft } from "react-icons/fa";
+import { useTheme } from "../context/ThemeContext";
 
 // Import images
 import img1 from "../assets/Homei/1.webp";
@@ -16,6 +17,7 @@ import img7 from "../assets/Homei/7.webp";
 import img8 from "../assets/Homei/8.webp";
 import img9 from "../assets/Homei/9.webp";
 import img10 from "../assets/Homei/10.webp";
+import img11 from "../assets/Homei/11.webp";
 import img12 from '../assets/Home1.jpg';
 import img13 from '../assets/Home2.jpg';
 import img14 from '../assets/1.jpg';
@@ -33,24 +35,11 @@ import img26 from '../assets/p1.jpg';
 import img27 from '../assets/p2.jpg';
 import img28 from '../assets/pr6.jpg';
 import img29 from '../assets/pr5.jpg';
-import img30 from '../assets/w1.webp';
-import img31 from '../assets/w2.webp';
-import img32 from  '../assets/w3.webp';
 import img33 from '../assets/rushank.jpg';
 
-import img11 from "../assets/Homei/11.webp";
-
-const selectedHeroImages = [img5, img6, img11,img12,img13];
+const selectedHeroImages = [img5, img6, img11, img12, img13];
 const galleryImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
-const workimages=[img14,img15,img16,img17,img18,img21,img20,img22,img23,img24,img25,img26,img27,img28,img29];
-const gridItems = [
-  { image: img1, title: "Weddings", color: "from-pink-500/20 to-purple-600/20" },
-  { image: img2, title: "Fashion", color: "from-blue-500/20 to-teal-600/20" },
-  { image: img3, title: "Portraits", color: "from-amber-500/20 to-red-600/20" },
-  { image: img4, title: "Nature", color: "from-green-500/20 to-emerald-600/20" },
-  { image: img5, title: "Architecture", color: "from-gray-500/20 to-slate-600/20" },
-  { image: img6, title: "Events", color: "from-yellow-500/20 to-orange-600/20" },
-];
+const workimages = [img14, img15, img16, img17, img18, img21, img20, img22, img23, img24, img25, img26, img27, img28, img29];
 
 const testimonials = [
   {
@@ -71,9 +60,9 @@ const testimonials = [
 ];
 
 const Home = () => {
+  const { theme } = useTheme();
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
@@ -106,12 +95,7 @@ const Home = () => {
   };
 
   return (
-    <div className="text-white overflow-hidden relative w-full bg-black">
-      {/* Floating Navigation */}
-   
-
-      
-
+    <div className={`overflow-hidden relative w-full bg-[var(--bg-primary)]`}>
       {/* Hero Section */}
       <section id="home" className="relative w-full h-screen overflow-hidden">
         <AnimatePresence mode="wait">
@@ -127,7 +111,7 @@ const Home = () => {
           />
         </AnimatePresence>
         
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/70"></div>
+        <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/70 ${theme === 'light' ? 'mix-blend-multiply' : ''}`}></div>
         
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
           <motion.div
@@ -136,7 +120,7 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="max-w-4xl"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-white leading-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-[var(--text-primary)] leading-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
                 Capturing
               </span>{" "}
@@ -177,7 +161,7 @@ const Home = () => {
                 <FiArrowRight className="animate-pulse" />
               </Link>
               <button 
-                className="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-black transition-all duration-300"
+                className={`px-8 py-4 border-2 border-[var(--text-primary)] text-[var(--text-primary)] font-bold rounded-full hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] transition-all duration-300`}
                 onClick={(e) => handleSmoothScroll(e, '#gallery')}
               >
                 View Portfolio
@@ -192,14 +176,14 @@ const Home = () => {
             <button
               key={index}
               onClick={() => setCurrentHeroImage(index)}
-              className={`w-3 h-3 rounded-full transition-all ${currentHeroImage === index ? 'bg-amber-500 w-6' : 'bg-white/50'}`}
+              className={`w-3 h-3 rounded-full transition-all ${currentHeroImage === index ? 'bg-amber-500 w-6' : 'bg-[var(--text-primary)]/50'}`}
             />
           ))}
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-28 bg-gradient-to-b from-black to-gray-900 text-white px-4">
+      <section id="about" className={`py-28 bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)] px-4`}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -207,16 +191,16 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-[var(--text-primary)]">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
                 About My Vision
               </span>
             </h2>
-            <p className="text-lg leading-relaxed mb-6">
-              Photography is more than just capturing moments—it's about preserving emotions, telling stories, and creating art that stands the test of time. With over a decade of experience, I specialize in turning fleeting seconds into eternal memories.
+            <p className="text-lg leading-relaxed mb-6 text-[var(--text-secondary)]">
+              Photography is more than just capturing moments—it's about preserving emotions, telling stories, and creating art that stands the test of time.
             </p>
-            <p className="text-lg leading-relaxed mb-8">
-              My approach combines technical precision with artistic intuition, ensuring each photograph is not just seen but felt. Whether it's the joy of a wedding, the energy of a fashion show, or the intimacy of a portrait session, I strive to reveal the authentic beauty in every frame.
+            <p className="text-lg leading-relaxed mb-8 text-[var(--text-secondary)]">
+              My approach combines technical precision with artistic intuition, ensuring each photograph is not just seen but felt.
             </p>
             <div className="flex flex-wrap gap-4">
               {[
@@ -226,7 +210,7 @@ const Home = () => {
               ].map((item, index) => (
                 <motion.div 
                   key={index}
-                  className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
+                  className={`flex items-center gap-2 bg-[var(--bg-secondary)] px-4 py-2 rounded-full text-[var(--text-primary)]`}
                   whileHover={{ scale: 1.05 }}
                 >
                   {item.icon}
@@ -252,17 +236,17 @@ const Home = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
             </div>
             <motion.div 
-              className="absolute -bottom-6  bg-gradient-to-r from-amber-500 to-red-500 p-1 rounded-2xl"
+              className="absolute -bottom-6 bg-gradient-to-r from-amber-500 to-red-500 p-1 rounded-2xl"
               initial={{ scale: 0.8 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="bg-black p-4 rounded-xl">
+              <div className="bg-[var(--bg-primary)] p-4 rounded-xl">
                 <h3 className="text-xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
                   My Philosophy
                 </h3>
-                <p className="text-sm">
+                <p className="text-sm text-[var(--text-secondary)]">
                   "Light, emotion, composition—when these elements harmonize, magic happens."
                 </p>
               </div>
@@ -272,10 +256,10 @@ const Home = () => {
       </section>
 
       {/* Portfolio Grid */}
-      <section className="py-20 bg-black px-4">
+      <section className="py-20 bg-[var(--bg-primary)] px-4">
         <div className="max-w-6xl mx-auto">
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold text-center mb-16"
+            className="text-4xl md:text-5xl font-bold text-center mb-16 text-[var(--text-primary)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -287,25 +271,25 @@ const Home = () => {
           </motion.h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {workimages.map((imageSrc, index) => (
-  <motion.div
-    key={index}
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6, delay: index * 0.1 }}
-    className="relative aspect-square rounded-xl overflow-hidden group"
-    onMouseEnter={() => setHoveredIndex(index)}
-    onMouseLeave={() => setHoveredIndex(null)}
-  >
-    <img 
-      src={imageSrc} 
-      alt={`Work ${index + 1}`} 
-      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-    />
-    <div className={`absolute inset-0 bg-gradient-to-b from-black to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-70' : 'opacity-30'}`}></div>
-  </motion.div>
-))}
+            {workimages.map((imageSrc, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="relative aspect-square rounded-xl overflow-hidden group"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <img 
+                  src={imageSrc} 
+                  alt={`Work ${index + 1}`} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-b from-black to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-70' : 'opacity-30'}`}></div>
+              </motion.div>
+            ))}
           </div>
           
           <motion.div
@@ -347,7 +331,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold mb-6 text-white"
+              className="text-4xl md:text-6xl font-bold mb-6 text-[var(--text-primary)]"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
                 Visual Storytelling
@@ -358,7 +342,7 @@ const Home = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-xl md:text-2xl text-white/80 mb-8"
+              className="text-xl md:text-2xl text-[var(--text-secondary)] mb-8"
             >
               Each image is a chapter in someone's story. Scroll to explore my visual narratives.
             </motion.p>
@@ -367,7 +351,7 @@ const Home = () => {
       </section>
 
       {/* Vertical Showcase */}
-      <section className="py-20 px-4 bg-black">
+      <section className="py-20 px-4 bg-[var(--bg-primary)]">
         <div className="max-w-4xl mx-auto flex flex-col items-center gap-16">
           {galleryImages.map((image, index) => (
             <motion.div
@@ -389,10 +373,10 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-28 px-4 bg-gradient-to-b from-gray-900 to-black">
+      <section id="testimonials" className={`py-28 px-4 bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)]`}>
         <div className="max-w-6xl mx-auto">
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold text-center mb-20"
+            className="text-4xl md:text-5xl font-bold text-center mb-20 text-[var(--text-primary)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -407,7 +391,7 @@ const Home = () => {
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                className="bg-gradient-to-b from-white/5 to-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/10"
+                className="bg-[var(--bg-secondary)] p-8 rounded-2xl backdrop-blur-sm border border-[var(--border-color)]"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -415,10 +399,10 @@ const Home = () => {
                 whileHover={{ y: -10 }}
               >
                 <FaQuoteLeft className="text-amber-400 text-3xl mb-6 opacity-70" />
-                <p className="text-lg italic mb-6">"{testimonial.text}"</p>
-                <div className="border-t border-white/10 pt-4">
-                  <h4 className="font-bold text-lg">{testimonial.author}</h4>
-                  <p className="text-sm text-white/60">{testimonial.role}</p>
+                <p className="text-lg italic mb-6 text-[var(--text-secondary)]">"{testimonial.text}"</p>
+                <div className="border-t border-[var(--border-color)] pt-4">
+                  <h4 className="font-bold text-lg text-[var(--text-primary)]">{testimonial.author}</h4>
+                  <p className="text-sm text-[var(--text-secondary)]">{testimonial.role}</p>
                 </div>
               </motion.div>
             ))}
@@ -438,7 +422,7 @@ const Home = () => {
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-8"
+            className="text-4xl md:text-5xl font-bold mb-8 text-[var(--text-primary)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -448,7 +432,7 @@ const Home = () => {
           </motion.h2>
           
           <motion.p 
-            className="text-xl mb-12 max-w-2xl mx-auto"
+            className="text-xl mb-12 max-w-2xl mx-auto text-[var(--text-secondary)]"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -473,16 +457,13 @@ const Home = () => {
             </Link>
             <Link
               to="/portfolio"
-              className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-black transition-all duration-300"
+              className="px-8 py-4 bg-transparent border-2 border-[var(--text-primary)] text-[var(--text-primary)] font-bold rounded-full hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] transition-all duration-300"
             >
               View Full Portfolio
             </Link>
           </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-     
     </div>
   );
 };

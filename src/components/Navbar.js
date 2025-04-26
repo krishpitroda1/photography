@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { FiInstagram, FiTwitter, FiFacebook } from "react-icons/fi";
 import img from "../assets/logo.png";
-
+import { useTheme } from "../context/ThemeContext";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-
+  const { theme, toggleTheme } = useTheme();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -99,6 +99,22 @@ const Navbar = () => {
                   </motion.div>
                 </Link>
               </motion.li>
+              <button 
+      onClick={toggleTheme}
+      className="p-2 rounded-full focus:outline-none"
+      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+    >
+      {theme === 'dark' ? (
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ) : (
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
+    </button>
+
             </ul>
 
             {/* Book Your Shoot Button */}
@@ -126,6 +142,7 @@ const Navbar = () => {
           >
             {menuOpen ? <FaTimes /> : <FaBars />}
           </motion.button>
+     
         </div>
       </div>
 
@@ -203,6 +220,21 @@ const Navbar = () => {
                   )}
                 </AnimatePresence>
               </motion.div>
+              <button 
+      onClick={toggleTheme}
+      className="p-2 rounded-full focus:outline-none"
+      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+    >
+      {theme === 'dark' ? (
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ) : (
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
+    </button>
 
               {/* Mobile Book Your Shoot Button */}
               <motion.div
@@ -219,7 +251,7 @@ const Navbar = () => {
                   Book Your Shoot
                 </Link>
               </motion.div>
-              
+          
               {/* Mobile Social Icons */}
               <motion.div 
                 className="flex space-x-6 mt-8 justify-center"
@@ -240,8 +272,10 @@ const Navbar = () => {
                   </motion.a>
                 ))}
               </motion.div>
+              
             </div>
           </motion.div>
+        
         )}
       </AnimatePresence>
     </motion.nav>
