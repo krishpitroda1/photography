@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/16.5bb5cdd6.chunk.js","mappings":"2JAUA,QARA,WACE,OACEA,EAAAA,EAAAA,KAAA,OAAAC,SAAK,MAIT,C","sources":["pages/BTS.js"],"sourcesContent":["import React from 'react'\r\n\r\nfunction Behind() {\r\n  return (\r\n    <div>\r\n      hi\r\n    </div>\r\n  )\r\n}\r\n\r\nexport default Behind\r\n"],"names":["_jsx","children"],"sourceRoot":""}

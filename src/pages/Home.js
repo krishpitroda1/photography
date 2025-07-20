@@ -17,7 +17,7 @@ import img7 from "../assets/Homei/7.webp";
 import img8 from "../assets/Homei/8.webp";
 import img9 from "../assets/Homei/9.webp";
 import img10 from "../assets/Homei/10.webp";
-import img11 from "../assets/Homei/11.webp";
+import img11 from "../assets/f34e.jpg";
 import img12 from '../assets/Home1.jpg';
 import img13 from '../assets/Home2.jpg';
 import img14 from '../assets/1.jpg';
@@ -37,7 +37,7 @@ import img28 from '../assets/pr6.jpg';
 import img29 from '../assets/pr5.jpg';
 import img33 from '../assets/rushank.jpg';
 
-const selectedHeroImages = [img5, img6, img11, img12, img13];
+const selectedHeroImages = [img5, img6, img11, img12];
 const galleryImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
 const workimages = [img14, img15, img16, img17, img18, img21, img20, img22, img23, img24, img25, img26, img27, img28, img29];
 
@@ -121,7 +121,7 @@ const Home = () => {
             className="max-w-4xl"
           >
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-[var(--text-primary)] leading-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-red-500 to-purple-600 animate-gradient-x">
                 Capturing
               </span>{" "}
               <br />
@@ -192,7 +192,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-[var(--text-primary)]">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-red-500 to-purple-600 animate-gradient-x">
                 About My Vision
               </span>
             </h2>
@@ -243,7 +243,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="bg-[var(--bg-primary)] p-4 rounded-xl">
-                <h3 className="text-xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
+                <h3 className="text-xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-red-500 to-purple-600 animate-gradient-x">
                   My Philosophy
                 </h3>
                 <p className="text-sm text-[var(--text-secondary)]">
@@ -257,59 +257,77 @@ const Home = () => {
 
       {/* Portfolio Grid */}
       <section className="py-20 bg-[var(--bg-primary)] px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2 
-            className="text-4xl md:text-5xl font-bold text-center mb-16 text-[var(--text-primary)]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
-              Explore My Work
-            </span>
-          </motion.h2>
+  <div className="max-w-7xl mx-auto">
+    <motion.h2 
+      className="text-4xl md:text-6xl font-bold text-center mb-16 text-[var(--text-primary)]"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-red-500 to-purple-600 animate-gradient-x">
+        Creative Showcase
+      </span>
+    </motion.h2>
+    
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {workimages.map((imageSrc, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: index * 0.1 }}
+          className="relative group"
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
+          {/* Card with layered effects */}
+          <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-amber-500/20">
+            {/* Background layer with subtle pattern */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800 opacity-30"></div>
+            
+            {/* Image with parallax effect */}
+            <div className="absolute inset-0 overflow-hidden">
+              <img 
+                src={imageSrc} 
+                alt={`Work ${index + 1}`} 
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+              />
+            </div>
+            
+            {/* Gradient overlay */}
+            <div className={`absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-90' : 'opacity-60'}`}></div>
+            
+            {/* Content overlay */}
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {workimages.map((imageSrc, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative aspect-square rounded-xl overflow-hidden group"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <img 
-                  src={imageSrc} 
-                  alt={`Work ${index + 1}`} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-b from-black to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-70' : 'opacity-30'}`}></div>
-              </motion.div>
-            ))}
+            
+            {/* Corner accent */}
+            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
-          
-          <motion.div
-            className="mt-16 text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-          >
-            <Link
-              to="/portfolio"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-amber-500 text-amber-500 font-bold rounded-full hover:bg-amber-500 hover:text-black transition-all duration-300"
-            >
-              View Full Portfolio
-              <FiArrowRight className="animate-pulse" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
+        </motion.div>
+      ))}
+    </div>
+    
+    <motion.div
+      className="mt-20 text-center"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.6 }}
+    >
+      <Link
+        to="/portfolio"
+        className="relative inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-amber-500 text-amber-500 font-bold rounded-full hover:bg-amber-500 hover:text-black transition-all duration-300 overflow-hidden group"
+      >
+        <span className="relative z-10">Explore Full Portfolio</span>
+        <FiArrowRight className="relative z-10 animate-pulse" />
+        <span className="absolute inset-0 bg-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0"></span>
+        <span className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-0"></span>
+      </Link>
+    </motion.div>
+  </div>
+</section>
       {/* Parallax Gallery Section */}
       <section id="gallery" className="relative h-[150vh] overflow-hidden" ref={containerRef}>
         <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
@@ -333,7 +351,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold mb-6 text-[var(--text-primary)]"
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-red-500">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-red-500 to-purple-600 animate-gradient-x">
                 Visual Storytelling
               </span>
             </motion.h2>
@@ -468,4 +486,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home; 

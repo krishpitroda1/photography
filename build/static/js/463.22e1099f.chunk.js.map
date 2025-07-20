@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/463.22e1099f.chunk.js","mappings":"+JAUA,QARA,WACE,OACEA,EAAAA,EAAAA,KAAA,OAAAC,SAAK,MAIT,C","sources":["pages/Clients.js"],"sourcesContent":["import React from 'react'\r\n\r\nfunction clients() {\r\n  return (\r\n    <div>\r\n      hi\r\n    </div>\r\n  )\r\n}\r\n\r\nexport default clients\r\n"],"names":["_jsx","children"],"sourceRoot":""}

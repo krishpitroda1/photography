@@ -124,7 +124,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link 
-                to="/book-your-shoot" 
+                to="/contact" 
                 className="px-6 py-2 bg-amber-400 text-neutral-900 font-medium rounded-full hover:bg-amber-500 transition-colors whitespace-nowrap"
               >
                 Book Your Shoot

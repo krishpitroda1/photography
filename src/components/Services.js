@@ -70,20 +70,7 @@ function Services() {
       images: serviceImages.post,
       color: "green"
     },
-    {
-      title: "Social Media Content Creation",
-      description: "Tailored content that enhances your brand's online presence, designed for maximum engagement and visual appeal.",
-      emoji: "📱",
-      images: serviceImages.social,
-      color: "red"
-    },
-    {
-      title: "Interior & Architecture Photography",
-      description: "Capturing spaces with depth, symmetry, and stunning detail, highlighting the beauty of architectural and interior designs.",
-      emoji: "🏛",
-      images: serviceImages.interior,
-      color: "amber"
-    }
+  
   ];
   const getBorderColor = (color) => {
     const colors = {
